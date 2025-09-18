@@ -26,8 +26,8 @@ export default function RootLayout({
         >
           <nav style={{ display: "flex", gap: "1rem" }}>
             <link href="/">Home</link>
-            <a href="/Labs">Labs</a>
-            <a href="/Kambaz">Kambaz</a>
+            <link href="/Labs">Labs</link>
+            <link href="/Kambaz">Kambaz</link>
           </nav>
         </header>
 

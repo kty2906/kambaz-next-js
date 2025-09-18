@@ -169,7 +169,7 @@ export default function Lab1() {
       <div id="wd-anchors">
         <h4>Anchor tag</h4>
     
-        <p>My repo: <a id="wd-github" href="https://github.com/YOUR_USERNAME/YOUR_REPO" target="_blank" rel="noreferrer">GitHub Repository</a></p>
+    
       </div>
     </div>
   );
