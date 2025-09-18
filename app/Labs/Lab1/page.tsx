@@ -44,7 +44,7 @@ export default function Lab1() {
         <ul id="wd-my-books">
           <li>Dune</li>
           <li>Lord of the Rings</li>
-          <li>Ender's Game</li>
+          <li>Ender Game</li>
         </ul>
 
         <p>Your favorite books (in no particular order)</p>
