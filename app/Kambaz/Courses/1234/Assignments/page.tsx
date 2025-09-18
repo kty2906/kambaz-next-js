@@ -14,8 +14,7 @@ const CS1234Assignments = () => {
         {assignments.map((a) => (
           <li
             key={a.id}
-            className="wd-assignment-list-item p-2 border rounded mb-2"
-          >
+            className="wd-assignment-list-item p-2 border rounded mb-2" >
             <Link href={`/Kambaz/Courses/CS1234/Assignments/${a.id}/Editor`}>
               {a.title}
             </Link>
