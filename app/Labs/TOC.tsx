@@ -1,4 +1,6 @@
 import Link from "next/link";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 export default function TOC() {
  return (
    <ul>
@@ -15,6 +17,6 @@ export default function TOC() {
        <Link href="/Labs/Lab3" id="wd-lab3-link">
          Lab 3 </Link> </li>
      <li>
-       <Link href="/Kambaz" id="wd-lab3-link">
+       <Link href="/Kambaz/Dashboard" id="wd-lab3-link">
          Kambaz </Link> </li> </ul>
 );}

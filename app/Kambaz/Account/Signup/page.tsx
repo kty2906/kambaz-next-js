@@ -1,13 +1,42 @@
 import Link from 'next/link';
+import './signup.css';
+
 export default function Signup() {
   return (
-    <div id="wd-signup-screen">
-      <h3>Sign up</h3>
-      <input placeholder="username" className="wd-username" /><br/>
-      <input placeholder="password" type="password" className="wd-password" /><br/>
-      <input placeholder="verify password" type="password" className="wd-password-verify" /><br/>
-      <Link href="Profile">Sign up</Link><br/>
-      <Link href="Signin">Sign in</Link>
+    <div className="signup-container">
+      <div className="signup-card">
+        <h1 className="signup-title">Signup</h1>
+        
+        <form className="signup-form">
+          <input 
+            type="text"
+            placeholder="username" 
+            className="wd-username form-input" 
+          />
+          
+          <input 
+            placeholder="password" 
+            type="password" 
+            className="wd-password form-input" 
+          />
+          
+          <Link 
+            id="wd-signup-btn" 
+            href="/Profile"
+            className="signup-button"
+          >
+            Signup
+          </Link>
+          
+          <Link 
+            id="wd-signin-link" 
+            href="/Signin"
+            className="signin-link"
+          >
+            Signin
+          </Link>
+        </form>
+      </div>
     </div>
   );
 }

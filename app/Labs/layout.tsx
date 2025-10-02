@@ -1,4 +1,6 @@
 import { ReactNode } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import TOC from './TOC';
 export default function LabsLayout({ children }: { children: ReactNode }) {
   return (

@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 export default function HomePage() {
   return (
     <div>
@@ -5,7 +6,7 @@ export default function HomePage() {
       <p>This is the landing page of my assignment.</p>
       <ul>
         <li><a href="/Labs">Go to Lab Exercises</a></li>
-        <li><a href="/Kambaz">Go to Kambaz Application</a></li>
+        <li><a href="/Kambaz/Dashboard">Go to Kambaz Application</a></li>
       </ul>
     </div>
   );

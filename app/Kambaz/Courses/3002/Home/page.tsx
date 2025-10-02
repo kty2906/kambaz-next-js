@@ -1,17 +1,13 @@
 "use client";
 
-import CS3002Modules from "../Modules/page";
-import CS3002Status from "./Status";
+import CS1234Modules from "../Modules/page";
 
-const CS3002Home = () => {
+const CS1234Home = () => {
   return (
-    <div className="flex">
-      <div className="flex-1 p-4">
-        <CS3002Modules />
-      </div>
-      <CS3002Status />
+    <div className="home-container">
+      <CS1234Modules />
     </div>
   );
 };
 
-export default CS3002Home;
+export default CS1234Home;

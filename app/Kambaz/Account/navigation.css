@@ -1,0 +1,180 @@
+/* Account Navigation Container */
+.account-nav {
+    width: 120px;
+    min-height: 100vh;
+    background-color: #000000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0;
+    gap: 0.5rem;
+  }
+  
+  /* Logo Section */
+  .nav-logo {
+    margin-bottom: 1rem;
+  }
+  
+  .logo-box {
+    width: 80px;
+    height: 80px;
+    background-color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #dc2626;
+  }
+  
+  .logo-text {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #dc2626;
+    font-family: 'Times New Roman', serif;
+  }
+  
+  /* Navigation Links Container */
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Base Nav Link Styles */
+  .nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 0.875rem;
+    padding: 0.5rem;
+    transition: all 0.2s ease-in-out;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+  
+  /* Red Text Links */
+  .nav-link-red .nav-label {
+    color: #dc2626;
+  }
+  
+  .nav-link-red:hover .nav-label {
+    color: #ef4444;
+  }
+  
+  /* Nav Icon */
+  .nav-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+    filter: brightness(0) invert(1);
+  }
+  
+  /* Nav Label */
+  .nav-label {
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+  
+  /* Account Section */
+  .nav-section {
+    width: 100%;
+    padding: 0 0.5rem;
+    margin-bottom: 1rem;
+    border-top: 1px solid #333;
+    padding-top: 1rem;
+  }
+  
+  .account-icon {
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+    color: #dc2626;
+    filter: none;
+  }
+  
+  .account-label {
+    color: #dc2626;
+    font-size: 0.75rem;
+  }
+  
+  /* Dashboard Section */
+  .nav-dashboard {
+    width: 100%;
+    padding: 0 0.5rem;
+    margin-top: auto;
+  }
+  
+  .dashboard-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #ffffff;
+    padding: 0.5rem;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .dashboard-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+  
+  .dashboard-box {
+    width: 80px;
+    height: 60px;
+    background-color: #000000;
+    border: 2px solid #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .dashboard-icon {
+    font-size: 2rem;
+    filter: brightness(0) invert(1);
+  }
+  
+  .dashboard-label {
+    font-size: 0.75rem;
+    color: #ffffff;
+    text-align: center;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .account-nav {
+      width: 80px;
+      padding: 0.5rem 0;
+    }
+  
+    .logo-box {
+      width: 60px;
+      height: 60px;
+    }
+  
+    .logo-text {
+      font-size: 2rem;
+    }
+  
+    .dashboard-box {
+      width: 60px;
+      height: 50px;
+    }
+  
+    .nav-label,
+    .dashboard-label,
+    .account-label {
+      font-size: 0.625rem;
+    }
+  }

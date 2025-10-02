@@ -1,9 +1,5 @@
-export default function Kambaz() {
-    return (
-      <div id="wd-kambaz">
-        <h1>Kambaz</h1>
-        
-      </div>
-    );
-  }
-  
+import { redirect } from "next/dist/client/components/navigation";
+
+export default function DashboardPage() {
+ redirect("./Dashboard");
+}

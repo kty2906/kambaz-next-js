@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const metadata: Metadata = {
   title: "Full Stack Next.js Web App",
@@ -27,7 +28,7 @@ export default function RootLayout({
           <nav style={{ display: "flex", gap: "1rem" }}>
             <Link href="/"> Home</Link>
             <Link href="/Labs">Labs</Link>
-            <Link href="/Kambaz"> Kambaz</Link>
+            <Link href="/Kambaz/Dashboard"> Kambaz</Link>
           </nav>
         </header>
 

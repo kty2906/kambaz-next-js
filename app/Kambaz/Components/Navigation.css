@@ -1,0 +1,92 @@
+/* Navigation Sidebar */
+.kambaz-navigation {
+    width: 120px;
+    background-color: #000000;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  
+  /* Navigation Items */
+  .nav-item {
+    padding: 0;
+    margin: 0;
+    background-color: #000000;
+    border-bottom: none;
+  }
+  
+  /* Active Navigation Item - White Background */
+  .nav-item-active {
+    background-color: #ffffff !important;
+  }
+  
+  /* Navigation Links */
+  .nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 10px;
+    text-decoration: none;
+    color: #ffffff;
+    transition: opacity 0.2s ease;
+    width: 100%;
+  }
+  
+  .nav-link:hover {
+    opacity: 0.8;
+    color: #ffffff;
+  }
+  
+  /* Navigation Icons */
+  .nav-icon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    color: #ffffff;
+  }
+  
+  /* Active Icon - Red Color */
+  .nav-icon-active {
+    color: #dc3545 !important;
+  }
+  
+  /* Navigation Text */
+  .nav-text {
+    font-size: 11px;
+    font-weight: 400;
+    color: #ffffff;
+    text-align: center;
+    margin: 0;
+  }
+  
+  /* Active Text - Red Color */
+  .nav-text-active {
+    color: #dc3545 !important;
+  }
+  
+  /* NEU Logo Link */
+  #wd-neu-link {
+    padding: 15px 10px;
+  }
+  
+  #wd-neu-link img {
+    display: block;
+    margin: 0 auto;
+  }
+  
+  /* Remove hover effect from logo */
+  #wd-neu-link:hover {
+    opacity: 1;
+  }
+  
+  /* Responsive - Hide on Mobile */
+  @media (max-width: 768px) {
+    .kambaz-navigation {
+      display: none;
+    }
+  }

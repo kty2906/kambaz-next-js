@@ -1,0 +1,67 @@
+.lab2-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* ===== Selectors ===== */
+  #white-on-red { color: white; background: red; }
+  #black-on-yellow { color: black; background: yellow; }
+  .blue-on-yellow { color: blue; background: yellow; }
+  .doc-structure { background: red; color: white; padding: 10px; }
+  .span-highlight { background: yellow; color: blue; padding: 2px 5px; }
+  
+  /* ===== Foreground & Background ===== */
+  .red-text { color: red; }
+  .green-text { color: green; }
+  .blue-text { color: blue; }
+  .white-text { color: white; }
+  .black-text { color: black; }
+  .red-bg { background: red; }
+  .blue-bg { background: blue; }
+  .yellow-bg { background: yellow; }
+  .green-bg { background: green; }
+  
+  /* ===== Borders ===== */
+  .fat-red-border { border: 5px solid red; padding: 5px; }
+  .thin-blue-dashed { border: 1px dashed blue; padding: 5px; }
+  
+  /* ===== Margins & Padding ===== */
+  .margins-1 { border: 5px solid red; background: yellow; padding: 20px 0 0 20px; margin: 10px; }
+  .margins-2 { border: 5px solid blue; background: yellow; padding-bottom: 20px; margin: 10px; }
+  .margins-3 { border: 5px solid yellow; background: blue; padding: 20px; margin: 10px; color: white; }
+  .margins-4 { border: 5px solid red; background: yellow; margin-bottom: 20px; padding: 10px; }
+  .margins-5 { border: 5px solid blue; background: yellow; width: 200px; margin: 20px auto; padding: 10px; }
+  .margins-6 { border: 5px solid yellow; background: blue; margin: 30px; padding: 20px; color: white; }
+  
+  /* ===== Rounded Corners ===== */
+  .rounded-top { border-radius: 15px 15px 0 0; padding: 10px; }
+  .rounded-bottom { border-radius: 0 0 15px 15px; padding: 10px; }
+  .rounded-all { border-radius: 15px; padding: 10px; }
+  .rounded-except-top-right { border-radius: 15px 0 15px 15px; padding: 10px; }
+  
+  /* ===== Dimensions ===== */
+  .dim-long { width: 200px; height: 100px; margin: 10px; }
+  .dim-tall { width: 100px; height: 200px; margin: 10px; }
+  .dim-square { width: 150px; height: 150px; margin: 10px; }
+  
+  /* ===== Positioning ===== */
+  .pos-relative { position: relative; top: 10px; left: 10px; background: yellow; padding: 10px; }
+  .pos-relative2 { position: relative; top: -10px; left: 20px; background: blue; color: white; padding: 10px; }
+  .pos-absolute-container { position: relative; height: 200px; border: 1px solid black; margin: 10px 0; }
+  .portrait { position: absolute; width: 80px; height: 150px; background: red; left: 10px; top: 10px; }
+  .landscape { position: absolute; width: 150px; height: 80px; background: blue; left: 120px; top: 20px; z-index: 2; }
+  .square { position: absolute; width: 100px; height: 100px; background: green; left: 80px; top: 50px; }
+  .pos-fixed { position: fixed; bottom: 10px; right: 10px; width: 120px; height: 50px; background: blue; color: white; text-align: center; }
+  
+  /* ===== Floating ===== */
+  .float-box { float: left; width: 80px; height: 80px; margin: 5px; }
+  .float-right { float: right; margin: 10px; }
+  
+  /* ===== Grid ===== */
+  .grid-container { display: grid; grid-template-columns: repeat(2, 100px); gap: 10px; }
+  .grid-item { background: lightgray; padding: 20px; text-align: center; }
+  
+  /* ===== Flex ===== */
+  .flex-container { display: flex; gap: 10px; }
+  .flex-item { background: orange; padding: 20px; flex: 1; text-align: center; }
+  

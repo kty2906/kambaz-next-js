@@ -1,21 +1,70 @@
 import Link from 'next/link';
+import './Profile.css';
+
 export default function Profile() {
   return (
-    <div id="wd-profile-screen">
-      <h3>Profile</h3>
-      <input defaultValue="alice" placeholder="username" className="wd-username" /><br/>
-      <input defaultValue="123" placeholder="password" type="password" className="wd-password" /><br/>
-      <input defaultValue="Alice" placeholder="First Name" id="wd-firstname" /><br/>
-      <input defaultValue="Wonderland" placeholder="Last Name" id="wd-lastname" /><br/>
-      <input defaultValue="2000-01-01" type="date" id="wd-dob" /><br/>
-      <input defaultValue="alice@wonderland" type="email" id="wd-email" /><br/>
-      <select defaultValue="FACULTY" id="wd-role">
-        <option value="USER">User</option>
-        <option value="ADMIN">Admin</option>
-        <option value="FACULTY">Faculty</option>
-        <option value="STUDENT">Student</option>
-      </select><br/>
-      <Link href="Signin">Sign out</Link>
+    <div className="profile-container">
+      <div className="profile-card">
+        <h1 className="profile-title">Profile</h1>
+        
+        <form className="profile-form">
+          <input 
+            type="text"
+            placeholder="username" 
+            className="wd-username form-input"
+            defaultValue="alice"
+          />
+          
+          <input 
+            type="text"
+            placeholder="password" 
+            className="wd-password form-input"
+            defaultValue="123"
+          />
+          
+          <input 
+            type="text"
+            placeholder="First Name" 
+            className="wd-firstname form-input"
+            defaultValue="Alice"
+          />
+          
+          <input 
+            type="text"
+            placeholder="Last Name" 
+            className="wd-lastname form-input"
+            defaultValue="Wonderland"
+          />
+          
+          <input 
+            type="date"
+            placeholder="Date of Birth" 
+            className="wd-dob form-input"
+          />
+          
+          <input 
+            type="email"
+            placeholder="email" 
+            className="wd-email form-input"
+            defaultValue="alice@wonderland.com"
+          />
+          
+          <select className="wd-role form-input">
+            <option value="USER">User</option>
+            <option value="ADMIN">Admin</option>
+            <option value="FACULTY">Faculty</option>
+            <option value="STUDENT">Student</option>
+          </select>
+          
+          <Link 
+            id="wd-signout-btn" 
+            href="/Signin"
+            className="signout-button"
+          >
+            Signout
+          </Link>
+        </form>
+      </div>
     </div>
   );
 }

@@ -1,9 +1,5 @@
-export default function Course1234() {
-    return (
-      <div>
-        <h1>CS1234 DB</h1>
-        <p>Databases</p>
-      </div>
-    );
-  }
-  
+import { redirect } from "next/dist/client/components/navigation";
+
+export default function CoursesPage() {
+ redirect("Kambaz/Courses/1234/Modules");
+}

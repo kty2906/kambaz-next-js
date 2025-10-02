@@ -1,0 +1,61 @@
+/* Account Layout Container */
+.account-layout {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #f5f5f5;
+  }
+  
+  /* Sidebar Navigation */
+  .account-sidebar {
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  
+  /* Main Content Area */
+  .account-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    overflow-y: auto;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .account-layout {
+      flex-direction: column;
+    }
+  
+    .account-sidebar {
+      position: relative;
+      height: auto;
+      width: 100%;
+    }
+  
+    .account-content {
+      padding: 1rem;
+    }
+  }
+  
+  /* Scrollbar Styling for Sidebar */
+  .account-sidebar::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .account-sidebar::-webkit-scrollbar-track {
+    background: #000000;
+  }
+  
+  .account-sidebar::-webkit-scrollbar-thumb {
+    background: #333333;
+    border-radius: 3px;
+  }
+  
+  .account-sidebar::-webkit-scrollbar-thumb:hover {
+    background: #555555;
+  }
