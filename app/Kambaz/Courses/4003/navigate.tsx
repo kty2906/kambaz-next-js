@@ -2,7 +2,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import "./navigate.css";
 
-export default function navigate() {
+export default function Navigate() {   
   const pathname = usePathname();
   
   const links = [
