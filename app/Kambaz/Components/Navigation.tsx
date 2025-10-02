@@ -1,3 +1,4 @@
+"use client";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { IoCalendarOutline } from "react-icons/io5";
 import { LiaBookSolid, LiaCogSolid } from "react-icons/lia";
@@ -50,7 +51,7 @@ export default function Navigation() {
 
       {/* Calendar */}
       <ListGroupItem className="border-0 bg-black text-center">
-        <Link href="./Calendar" id="wd-calendar-link" className="text-white text-decoration-none">
+        <Link href={'/Kambaz/Calendar'} id="wd-calendar-link" className="text-white text-decoration-none">
           <IoCalendarOutline className="fs-1 text-white" />
           <br />
           <span style={{ fontSize: '12px' }}>Calendar</span>
@@ -59,7 +60,7 @@ export default function Navigation() {
 
       {/* Inbox */}
       <ListGroupItem className="border-0 bg-black text-center">
-        <Link href="./Inbox" id="wd-inbox-link" className="text-white text-decoration-none">
+        <Link href={'./Inbox'} id="wd-inbox-link" className="text-white text-decoration-none">
           <FaInbox className="fs-1 text-white" />
           <br />
           <span style={{ fontSize: '12px' }}>Inbox</span>
@@ -68,7 +69,7 @@ export default function Navigation() {
 
       {/* Labs */}
       <ListGroupItem className="border-0 bg-black text-center">
-        <Link href="./Help" id="wd-help-link" className="text-white text-decoration-none">
+        <Link href={'./Help'} id="wd-help-link" className="text-white text-decoration-none">
           <HiOutlineQuestionMarkCircle className="fs-1 text-white" />
           <br />
           <span style={{ fontSize: '12px' }}>Labs</span>
