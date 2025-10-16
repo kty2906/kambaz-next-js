@@ -1,4 +1,3 @@
-
 "use client";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { IoCalendarOutline } from "react-icons/io5";
@@ -7,12 +6,12 @@ import { FaInbox, FaRegCircleUser } from "react-icons/fa6";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image"; // FIXED: Using Next.js Image
 import './Navigation.css';
 
 export default function Navigation() {
   const pathname = usePathname();
   
-  // Data-driven navigation links
   const links = [
     { 
       label: "Dashboard", 
@@ -52,7 +51,7 @@ export default function Navigation() {
       style={{ width: 120 }}
       id="wd-kambaz-navigation"
     >
-      {/* NEU Logo */}
+      {/* FIXED: Using Next.js Image instead of <img> */}
       <ListGroupItem 
         className="bg-black border-0 text-center" 
         as="a"
@@ -60,14 +59,14 @@ export default function Navigation() {
         href="https://www.northeastern.edu/" 
         id="wd-neu-link"
       >
-        <img 
+        <Image 
           src="/images/NEU.png" 
-          width="75px" 
+          width={75}
+          height={75}
           alt="Northeastern University" 
         />
       </ListGroupItem>
 
-      {/* Account */}
       <ListGroupItem 
         className={`border-0 text-center ${
           pathname.includes("Account") ? "bg-white" : "bg-black"
@@ -76,14 +75,13 @@ export default function Navigation() {
         <Link 
           href="/Kambaz/Account/Signin" 
           id="wd-account-link" 
-          className="text-decoration-none"
+          className="text-decoration-none d-flex flex-column align-items-center"
         >
           <FaRegCircleUser 
             className={`fs-1 ${
               pathname.includes("Account") ? "text-danger" : "text-white"
             }`} 
           />
-          <br />
           <span 
             style={{ fontSize: '12px' }}
             className={pathname.includes("Account") ? "text-danger" : "text-white"}
@@ -93,7 +91,6 @@ export default function Navigation() {
         </Link>
       </ListGroupItem>
 
-      {/* Dynamic Navigation Links */}
       {links.map((link) => {
         const isActive = pathname.includes(link.label) || 
                         (link.label === "Dashboard" && pathname === "/Kambaz/Dashboard") ||
@@ -109,14 +106,13 @@ export default function Navigation() {
             <Link 
               href={link.path} 
               id={link.id}
-              className="text-decoration-none"
+              className="text-decoration-none d-flex flex-column align-items-center"
             >
               {link.icon({ 
-                className: `fs-1 ${isActive ? "text-danger" : "text-white"}` 
+                className: "fs-1 text-danger"
               })}
-              <br />
               <span 
-                style={{ fontSize: '12px' }}
+                style={{ fontSize: '12px', marginTop: '5px' }}
                 className={isActive ? "text-danger" : "text-white"}
               >
                 {link.label}

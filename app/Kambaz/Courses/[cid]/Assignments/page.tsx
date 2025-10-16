@@ -2,6 +2,7 @@
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import * as db from "../../../Database";
+import { Assignment } from "../../../Database/types"; 
 
 export default function Assignments() {
   const { cid } = useParams();
@@ -12,8 +13,8 @@ export default function Assignments() {
       <h2>Assignments</h2>
       <ul className="list-group mt-4">
         {assignments
-          .filter((assignment: any) => assignment.course === cid)
-          .map((assignment: any) => (
+          .filter((assignment: Assignment) => assignment.course === cid) 
+          .map((assignment: Assignment) => (
             <li key={assignment._id} className="list-group-item">
               <Link 
                 href={`/Kambaz/Courses/${cid}/Assignments/${assignment._id}`}
@@ -33,4 +34,3 @@ export default function Assignments() {
     </div>
   );
 }
-

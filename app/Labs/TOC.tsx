@@ -53,7 +53,7 @@ export default function TOC() {
       <NavItem>
         <NavLink 
           id="wd-github"
-          href="https://github.com/YOUR_USERNAME/kambaz-next-js" 
+          href="https://github.com/kty2906/kambaz-next-js" 
           target="_blank"
         >
           My GitHub
