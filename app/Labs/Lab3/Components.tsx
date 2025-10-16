@@ -9,8 +9,8 @@ import "./Classes.css";
 
 
 export function VariablesAndConstants() {
-  var functionScoped = 2;
-  let blockScoped = 5;
+  const functionScoped = 2;
+  const blockScoped = 5;
   const constant1 = functionScoped - blockScoped;
   
   return (
@@ -24,13 +24,13 @@ export function VariablesAndConstants() {
 }
 
 export function VariableTypes() {
-  let numberVariable = 123;
-  let floatingPointNumber = 234.345;
-  let stringVariable = 'Hello World!';
-  let booleanVariable = true;
-  let isNumber = typeof numberVariable;
-  let isString = typeof stringVariable;
-  let isBoolean = typeof booleanVariable;
+  const numberVariable = 123;
+  const floatingPointNumber = 234.345;
+  const stringVariable = 'Hello World!';
+  const booleanVariable = true;
+  const isNumber = typeof numberVariable;
+  const isString = typeof stringVariable;
+  const isBoolean = typeof booleanVariable;
   
   return (
     <div id="wd-variable-types">
@@ -47,16 +47,16 @@ export function VariableTypes() {
 }
 
 export function BooleanVariables() {
-  let numberVariable = 123;
-  let floatingPointNumber = 234.345;
-  let true1 = true;
-  let false1 = false;
-  let false2 = true1 && false1;
-  let true2 = true1 || false1;
-  let true3 = !false2;
-  let true4 = numberVariable === 123;
-  let true5 = floatingPointNumber !== 321.432;
-  let false3 = numberVariable < 100;
+  const numberVariable = 123;
+  const floatingPointNumber: number = 234.345;
+  const true1 = true;
+  const false1 = false;
+  const false2 = true1 && false1;
+  const true2 = true1 || false1;
+  const true3 = !false2;
+  const true4 = numberVariable === 123;
+  const true5 = floatingPointNumber !== 321.432;
+  const false3 = numberVariable < 100;
   
   return (
     <div id="wd-boolean-variables">
@@ -197,13 +197,13 @@ export function TemplateLiterals() {
 
 
 export function SimpleArrays() {
-  var functionScoped = 2;
-  let blockScoped = 5;
+  const functionScoped = 2;
+  const blockScoped = 5;
   const constant1 = functionScoped - blockScoped;
-  let numberArray1 = [1, 2, 3, 4, 5];
-  let stringArray1 = ["string1", "string2"];
-  let htmlArray1 = [<li key="1">Buy milk</li>, <li key="2">Feed the pets</li>];
-  let variableArray1 = [
+  const numberArray1 = [1, 2, 3, 4, 5];
+  const stringArray1 = ["string1", "string2"];
+  const htmlArray1 = [<li key="1">Buy milk</li>, <li key="2">Feed the pets</li>];
+  const variableArray1 = [
     functionScoped,
     blockScoped,
     constant1,
@@ -301,8 +301,8 @@ export function MapFunction() {
 }
 
 export function FindFunction() {
-  let numberArray1 = [1, 2, 3, 4, 5];
-  let stringArray1 = ["string1", "string2", "string3"];
+  const numberArray1 = [1, 2, 3, 4, 5];
+  const stringArray1 = ["string1", "string2", "string3"];
   const four = numberArray1.find((a) => a === 4);
   const string3 = stringArray1.find((a) => a === "string3");
   
@@ -316,8 +316,8 @@ export function FindFunction() {
 }
 
 export function FindIndex() {
-  let numberArray1 = [1, 2, 4, 5, 6];
-  let stringArray1 = ['string1', 'string3'];
+  const numberArray1 = [1, 2, 4, 5, 6];
+  const stringArray1 = ['string1', 'string3'];
   const fourIndex = numberArray1.findIndex(a => a === 4);
   const string3Index = stringArray1.findIndex(a => a === 'string3');
   
@@ -331,7 +331,7 @@ export function FindIndex() {
 }
 
 export function FilterFunction() {
-  let numberArray1 = [1, 2, 4, 5, 6];
+  const numberArray1 = [1, 2, 4, 5, 6];
   const numbersGreaterThan2 = numberArray1.filter((a) => a > 2);
   const evenNumbers = numberArray1.filter((a) => a % 2 === 0);
   const oddNumbers = numberArray1.filter((a) => a % 2 !== 0);
