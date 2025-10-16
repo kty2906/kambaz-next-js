@@ -76,8 +76,8 @@ export function BooleanVariables() {
 // ============ CONDITIONALS ============
 
 export function IfElse() {
-  let true1 = true;
-  let false1 = false;
+  const true1 = true;
+  const false1 = false;
   
   return (
     <div id="wd-if-else">
@@ -89,7 +89,7 @@ export function IfElse() {
 }
 
 export function TernaryOperator() {
-  let loggedIn = true;
+  const loggedIn = true;
   
   return (
     <div id="wd-ternary-operator">
@@ -225,7 +225,7 @@ export function SimpleArrays() {
 }
 
 export function ArrayIndexAndLength() {
-  let numberArray1 = [1, 2, 3, 4, 5];
+  const numberArray1 = [1, 2, 3, 4, 5];
   const length1 = numberArray1.length;
   const index1 = numberArray1.indexOf(3);
   
@@ -279,7 +279,7 @@ export function ForLoops() {
 }
 
 export function MapFunction() {
-  let numberArray1 = [1, 2, 3, 4, 5, 6];
+  const numberArray1 = [1, 2, 3, 4, 5, 6];
   const square = (a: number) => a * a;
   const todos = ["Buy milk", "Feed the pets"];
   const squares = numberArray1.map(square);
