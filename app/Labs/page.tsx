@@ -1,17 +1,13 @@
-import Link from 'next/link';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// app/Labs/page.tsx
+import TOC from "./TOC";
+
 export default function Labs() {
   return (
     <div id="wd-labs">
       <h1>Labs</h1>
-      <p id="wd-student-name">Krisha Thakkar</p>
-      <ul>
-        <li><Link id="wd-lab1-link" href="/Labs/Lab1"> Lab 1: HTML Examples </Link></li>
-        <li><Link id="wd-lab2-link" href="/Labs/Lab2"> Lab 2: CSS </Link></li>
-      </ul>
-
-     
-
+      <h2>Your Full Name Here</h2>
+      <TOC />
+      <p>Add your name above in the format: FirstName LastName</p>
     </div>
   );
 }

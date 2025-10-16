@@ -1,0 +1,285 @@
+[
+    {
+      "_id": "M1234-1",
+      "name": "Introduction to Web Development",
+      "description": "Fundamentals of HTML, CSS, and JavaScript",
+      "course": "1234",
+      "lessons": [
+        {
+          "_id": "L1234-1-1",
+          "name": "HTML Basics",
+          "description": "Introduction to HTML structure and elements",
+          "module": "M1234-1"
+        },
+        {
+          "_id": "L1234-1-2",
+          "name": "CSS Fundamentals",
+          "description": "Styling web pages with CSS",
+          "module": "M1234-1"
+        },
+        {
+          "_id": "L1234-1-3",
+          "name": "JavaScript Introduction",
+          "description": "Basic JavaScript programming concepts",
+          "module": "M1234-1"
+        }
+      ]
+    },
+    {
+      "_id": "M1234-2",
+      "name": "React Fundamentals",
+      "description": "Building modern web applications with React",
+      "course": "1234",
+      "lessons": [
+        {
+          "_id": "L1234-2-1",
+          "name": "Components and Props",
+          "description": "Understanding React components",
+          "module": "M1234-2"
+        },
+        {
+          "_id": "L1234-2-2",
+          "name": "State and Lifecycle",
+          "description": "Managing component state",
+          "module": "M1234-2"
+        },
+        {
+          "_id": "L1234-2-3",
+          "name": "Hooks",
+          "description": "Using React Hooks effectively",
+          "module": "M1234-2"
+        }
+      ]
+    },
+    {
+      "_id": "M1234-3",
+      "name": "Next.js and Server-Side Rendering",
+      "description": "Building full-stack applications with Next.js",
+      "course": "1234",
+      "lessons": [
+        {
+          "_id": "L1234-3-1",
+          "name": "Next.js Routing",
+          "description": "File-based routing in Next.js",
+          "module": "M1234-3"
+        },
+        {
+          "_id": "L1234-3-2",
+          "name": "Server Components",
+          "description": "Understanding server and client components",
+          "module": "M1234-3"
+        },
+        {
+          "_id": "L1234-3-3",
+          "name": "API Routes",
+          "description": "Creating API endpoints in Next.js",
+          "module": "M1234-3"
+        }
+      ]
+    },
+    {
+      "_id": "M2001-1",
+      "name": "Node.js Fundamentals",
+      "description": "Server-side JavaScript with Node.js",
+      "course": "2001",
+      "lessons": [
+        {
+          "_id": "L2001-1-1",
+          "name": "Node.js Basics",
+          "description": "Introduction to Node.js runtime",
+          "module": "M2001-1"
+        },
+        {
+          "_id": "L2001-1-2",
+          "name": "NPM and Packages",
+          "description": "Managing dependencies with NPM",
+          "module": "M2001-1"
+        },
+        {
+          "_id": "L2001-1-3",
+          "name": "Express.js",
+          "description": "Building web servers with Express",
+          "module": "M2001-1"
+        }
+      ]
+    },
+    {
+      "_id": "M2001-2",
+      "name": "RESTful API Design",
+      "description": "Creating scalable REST APIs",
+      "course": "2001",
+      "lessons": [
+        {
+          "_id": "L2001-2-1",
+          "name": "REST Principles",
+          "description": "Understanding RESTful architecture",
+          "module": "M2001-2"
+        },
+        {
+          "_id": "L2001-2-2",
+          "name": "CRUD Operations",
+          "description": "Implementing Create, Read, Update, Delete",
+          "module": "M2001-2"
+        },
+        {
+          "_id": "L2001-2-3",
+          "name": "Authentication",
+          "description": "Securing APIs with JWT",
+          "module": "M2001-2"
+        }
+      ]
+    },
+    {
+      "_id": "M2001-3",
+      "name": "Database Integration",
+      "description": "Connecting to databases from Node.js",
+      "course": "2001",
+      "lessons": [
+        {
+          "_id": "L2001-3-1",
+          "name": "MongoDB Basics",
+          "description": "Working with MongoDB",
+          "module": "M2001-3"
+        },
+        {
+          "_id": "L2001-3-2",
+          "name": "Mongoose ODM",
+          "description": "Using Mongoose for data modeling",
+          "module": "M2001-3"
+        }
+      ]
+    },
+    {
+      "_id": "M3002-1",
+      "name": "Database Design Principles",
+      "description": "Fundamentals of relational database design",
+      "course": "3002",
+      "lessons": [
+        {
+          "_id": "L3002-1-1",
+          "name": "ER Diagrams",
+          "description": "Entity-Relationship modeling",
+          "module": "M3002-1"
+        },
+        {
+          "_id": "L3002-1-2",
+          "name": "Normalization",
+          "description": "Database normalization techniques",
+          "module": "M3002-1"
+        },
+        {
+          "_id": "L3002-1-3",
+          "name": "SQL Fundamentals",
+          "description": "Basic SQL queries and operations",
+          "module": "M3002-1"
+        }
+      ]
+    },
+    {
+      "_id": "M3002-2",
+      "name": "Advanced SQL",
+      "description": "Complex queries and optimization",
+      "course": "3002",
+      "lessons": [
+        {
+          "_id": "L3002-2-1",
+          "name": "Joins and Subqueries",
+          "description": "Advanced SQL query techniques",
+          "module": "M3002-2"
+        },
+        {
+          "_id": "L3002-2-2",
+          "name": "Indexing",
+          "description": "Database performance optimization",
+          "module": "M3002-2"
+        }
+      ]
+    },
+    {
+      "_id": "M3002-3",
+      "name": "NoSQL Databases",
+      "description": "Introduction to non-relational databases",
+      "course": "3002",
+      "lessons": [
+        {
+          "_id": "L3002-3-1",
+          "name": "Document Databases",
+          "description": "Working with MongoDB",
+          "module": "M3002-3"
+        },
+        {
+          "_id": "L3002-3-2",
+          "name": "Key-Value Stores",
+          "description": "Redis and caching strategies",
+          "module": "M3002-3"
+        }
+      ]
+    },
+    {
+      "_id": "M4003-1",
+      "name": "Software Testing Fundamentals",
+      "description": "Introduction to software testing methodologies",
+      "course": "4003",
+      "lessons": [
+        {
+          "_id": "L4003-1-1",
+          "name": "Testing Types",
+          "description": "Unit, Integration, and E2E testing",
+          "module": "M4003-1"
+        },
+        {
+          "_id": "L4003-1-2",
+          "name": "Test-Driven Development",
+          "description": "TDD methodology and practices",
+          "module": "M4003-1"
+        },
+        {
+          "_id": "L4003-1-3",
+          "name": "Jest Framework",
+          "description": "Writing tests with Jest",
+          "module": "M4003-1"
+        }
+      ]
+    },
+    {
+      "_id": "M4003-2",
+      "name": "Automated Testing",
+      "description": "Building automated test suites",
+      "course": "4003",
+      "lessons": [
+        {
+          "_id": "L4003-2-1",
+          "name": "Testing Library",
+          "description": "React Testing Library basics",
+          "module": "M4003-2"
+        },
+        {
+          "_id": "L4003-2-2",
+          "name": "Cypress E2E",
+          "description": "End-to-end testing with Cypress",
+          "module": "M4003-2"
+        }
+      ]
+    },
+    {
+      "_id": "M4003-3",
+      "name": "Quality Assurance",
+      "description": "QA processes and best practices",
+      "course": "4003",
+      "lessons": [
+        {
+          "_id": "L4003-3-1",
+          "name": "Code Quality",
+          "description": "Linting and code standards",
+          "module": "M4003-3"
+        },
+        {
+          "_id": "L4003-3-2",
+          "name": "CI/CD Integration",
+          "description": "Integrating tests in deployment pipeline",
+          "module": "M4003-3"
+        }
+      ]
+    }
+  ]
+  

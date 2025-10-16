@@ -1,0 +1,42 @@
+[
+    {
+      "_id": "1234",
+      "name": "CS5610 SU1 24 MON/FRI",
+      "number": "CS5610.41239.202440",
+      "startDate": "2024-06-03",
+      "endDate": "2024-08-15",
+      "department": "Computer Science",
+      "credits": 4,
+      "description": "2024-06-3 Summer 1 2024 Semester Full Term - Web Development course covering modern frameworks and technologies"
+    },
+    {
+      "_id": "2001",
+      "name": "CS5610 SU23 WED",
+      "number": "CS5610.52323.202420",
+      "startDate": "2024-06-03",
+      "endDate": "2024-08-15",
+      "department": "Computer Science",
+      "credits": 4,
+      "description": "2024-06-3 Summer 1 2024 Semester Full Term - Advanced Web Development with focus on server-side technologies"
+    },
+    {
+      "_id": "3002",
+      "name": "CS5610 02 SP24 MON",
+      "number": "CS5610.35159.202430",
+      "startDate": "2024-04-02",
+      "endDate": "2024-06-15",
+      "department": "Computer Science",
+      "credits": 4,
+      "description": "2024-04-2 Spring 2024 Semester Full Term - Database design and implementation"
+    },
+    {
+      "_id": "4003",
+      "name": "CS4550 01 SP24 TUE/FRI",
+      "number": "CS4550.30085.202430",
+      "startDate": "2024-01-10",
+      "endDate": "2024-05-15",
+      "department": "Computer Science",
+      "credits": 4,
+      "description": "2024-01-1 Spring 2024 Semester Full Term - Software testing and quality assurance"
+    }
+]

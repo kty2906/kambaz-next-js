@@ -1,47 +1,20 @@
 import Link from "next/link";
-import Image from "next/image";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaFileImport } from "react-icons/fa";
 import './dashboard.css';
+import * as db from "../Database";
+
 export default function Dashboard() {
-  const courses = [
-    {
-      id: "1234",
-      code: "CS5610 SU1 24 MON/FRI",
-      fullCode: "CS5610.41239.202440",
-      name: "CS5610.41239.202440",
-      description: "2024-06-3 Summer 1 2024 Semester Full Te...",
-      image: "/images/reactjs.jpg",
-      color: "#4CAF50", // Green
-    },
-    {
-      id: "2001",
-      code: "CS5610 SU23 WED",
-      fullCode: "CS5610.52323.202420",
-      name: "CS5610.52323.202420",
-      description: "2024-06-3 Summer 1 2024 Semester Full Te...",
-      image: "/images/node.jpg",
-      color: "#4CAF50", // Green
-    },
-    {
-      id: "3002",
-      code: "CS5610 02 SP24 MON",
-      fullCode: "CS5610.35159.202430",
-      name: "CS5610.35159.202430",
-      description: "2024-04-2 Spring 2024 Semester Full Te...",
-      image: "/images/db.jpg",
-      color: "#1976D2", // Blue
-    },
-    {
-      id: "4003",
-      code: "CS4550 01 SP24 TUE/FRI",
-      fullCode: "CS4550.30085.202430",
-      name: "CS4550.30085.202430",
-      description: "2024-01-1 Spring 2024 Semester Full Term",
-      image: "/images/testing.jpg",
-      color: "#2196F3", // Light Blue
-    },
-  ];
+  // Get courses from database
+  const courses = db.courses;
+
+  // Map course IDs to colors (keeping your original colors)
+  const courseColors: { [key: string]: string } = {
+    "1234": "#4CAF50",
+    "2001": "#4CAF50",
+    "3002": "#1976D2",
+    "4003": "#2196F3"
+  };
 
   return (
     <div id="wd-dashboard" style={{ marginLeft: '120px' }}>
@@ -50,21 +23,21 @@ export default function Dashboard() {
         <hr />
         
         <h2 id="wd-dashboard-published" className="fs-5 mb-4">
-          Published Courses (29)
+          Published Courses ({courses.length})
         </h2>
 
         <div id="wd-dashboard-courses" className="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
           {courses.map((course) => (
-            <div key={course.id} className="col">
+            <div key={course._id} className="col">
               <div className="card wd-dashboard-course h-100">
                 <Link 
-                  href={`/Kambaz/Courses/${course.id}/Modules`} 
+                  href={`/Kambaz/Courses/${course._id}/Home`} 
                   className="text-decoration-none"
                 >
                   <div 
                     className="card-img-top position-relative" 
                     style={{ 
-                      backgroundColor: course.color,
+                      backgroundColor: courseColors[course._id] || "#4CAF50",
                       height: '150px',
                       overflow: 'hidden'
                     }}
@@ -81,10 +54,10 @@ export default function Dashboard() {
                   
                   <div className="card-body">
                     <h5 className="card-title text-danger mb-2" style={{ fontSize: '14px' }}>
-                      {course.code}
+                      {course.name}
                     </h5>
                     <p className="card-text text-dark mb-1" style={{ fontSize: '13px' }}>
-                      {course.fullCode}
+                      {course.number}
                     </p>
                     <p className="card-text text-muted" style={{ fontSize: '12px' }}>
                       {course.description}

@@ -1,0 +1,110 @@
+[
+    {
+      "_id": "A1234-1",
+      "title": "HTML & CSS Portfolio",
+      "course": "1234",
+      "description": "Create a personal portfolio website using HTML and CSS",
+      "points": 100,
+      "dueDate": "2024-06-20",
+      "availableDate": "2024-06-03"
+    },
+    {
+      "_id": "A1234-2",
+      "title": "JavaScript Calculator",
+      "course": "1234",
+      "description": "Build a functional calculator using vanilla JavaScript",
+      "points": 100,
+      "dueDate": "2024-07-05",
+      "availableDate": "2024-06-20"
+    },
+    {
+      "_id": "A1234-3",
+      "title": "React Todo App",
+      "course": "1234",
+      "description": "Create a todo list application using React with full CRUD functionality",
+      "points": 150,
+      "dueDate": "2024-07-25",
+      "availableDate": "2024-07-05"
+    },
+    {
+      "_id": "A2001-1",
+      "title": "Node.js Server Setup",
+      "course": "2001",
+      "description": "Set up a basic Node.js server with Express",
+      "points": 100,
+      "dueDate": "2024-06-20",
+      "availableDate": "2024-06-03"
+    },
+    {
+      "_id": "A2001-2",
+      "title": "RESTful API Development",
+      "course": "2001",
+      "description": "Build a complete REST API with authentication",
+      "points": 150,
+      "dueDate": "2024-07-10",
+      "availableDate": "2024-06-20"
+    },
+    {
+      "_id": "A2001-3",
+      "title": "Database Integration Project",
+      "course": "2001",
+      "description": "Integrate MongoDB with your API and implement CRUD operations",
+      "points": 150,
+      "dueDate": "2024-08-01",
+      "availableDate": "2024-07-10"
+    },
+    {
+      "_id": "A3002-1",
+      "title": "Database Design Document",
+      "course": "3002",
+      "description": "Create an ER diagram and database schema for a given scenario",
+      "points": 100,
+      "dueDate": "2024-04-20",
+      "availableDate": "2024-04-02"
+    },
+    {
+      "_id": "A3002-2",
+      "title": "SQL Query Assignment",
+      "course": "3002",
+      "description": "Write complex SQL queries to solve various data problems",
+      "points": 100,
+      "dueDate": "2024-05-10",
+      "availableDate": "2024-04-20"
+    },
+    {
+      "_id": "A3002-3",
+      "title": "Database Implementation Project",
+      "course": "3002",
+      "description": "Implement a complete database system with optimization",
+      "points": 150,
+      "dueDate": "2024-06-05",
+      "availableDate": "2024-05-10"
+    },
+    {
+      "_id": "A4003-1",
+      "title": "Unit Testing Exercise",
+      "course": "4003",
+      "description": "Write comprehensive unit tests for provided code",
+      "points": 100,
+      "dueDate": "2024-02-15",
+      "availableDate": "2024-01-10"
+    },
+    {
+      "_id": "A4003-2",
+      "title": "Integration Testing Project",
+      "course": "4003",
+      "description": "Create integration tests for a web application",
+      "points": 100,
+      "dueDate": "2024-03-20",
+      "availableDate": "2024-02-15"
+    },
+    {
+      "_id": "A4003-3",
+      "title": "E2E Testing Suite",
+      "course": "4003",
+      "description": "Build a complete end-to-end testing suite using Cypress",
+      "points": 150,
+      "dueDate": "2024-05-01",
+      "availableDate": "2024-03-20"
+    }
+  ]
