@@ -6,7 +6,7 @@ import MathUtils, { add, subtract, multiply as multiplyFn, divide } from "./Math
 import * as Matematica from "./Math";
 import "./Classes.css";
 
-// ============ BASIC COMPONENTS ============
+
 
 export function VariablesAndConstants() {
   var functionScoped = 2;
@@ -194,7 +194,7 @@ export function TemplateLiterals() {
   );
 }
 
-// ============ ARRAYS ============
+
 
 export function SimpleArrays() {
   var functionScoped = 2;
@@ -239,9 +239,9 @@ export function ArrayIndexAndLength() {
 }
 
 export function AddingAndRemovingToFromArrays() {
-  let numberArray1 = [1, 2, 3, 4, 5];
-  let stringArray1 = ["string1", "string2"];
-  let todoArray = [<li key="1">Buy milk</li>, <li key="2">Feed the pets</li>];
+  const numberArray1 = [1, 2, 3, 4, 5];
+  const stringArray1 = ["string1", "string2"];
+  const todoArray = [<li key="1">Buy milk</li>, <li key="2">Feed the pets</li>];
   
   numberArray1.push(6);
   stringArray1.push("string3");
@@ -262,8 +262,8 @@ export function AddingAndRemovingToFromArrays() {
 }
 
 export function ForLoops() {
-  let stringArray1 = ["string1", "string3"];
-  let stringArray2 = [];
+  const stringArray1 = ["string1", "string3"];
+  const stringArray2 = [];
   
   for (let i = 0; i < stringArray1.length; i++) {
     const string1 = stringArray1[i];
@@ -421,19 +421,28 @@ export function Destructing() {
   return (
     <div id="wd-destructing">
       <h2>Destructing</h2>
+  
       <h3>Object Destructing</h3>
-      const &#123; name, age &#125; = &#123; name: "John", age: 25 &#125;<br /><br />
-      name = {name}<br />
+      const &#123; name, age &#125; = &#123; name: &quot;John&quot;, age: 25 &#125;
+      <br />
+      <br />
+      name = {name}
+      <br />
       age = {age}
+  
       <h3>Array Destructing</h3>
-      const [first, second, third] = ["one","two","three"]<br/><br/>
-      first = {first}<br />
-      second = {second}<br />
-      third = {third}<hr />
+      const [first, second, third] = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]
+      <br />
+      <br />
+      first = {first}
+      <br />
+      second = {second}
+      <br />
+      third = {third}
+      <hr />
     </div>
   );
 }
-
 export function FunctionDestructing() {
   const add = (a: number, b: number) => a + b;
   const sum = add(1, 2);
