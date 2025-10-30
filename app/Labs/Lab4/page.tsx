@@ -12,7 +12,7 @@ import ArrayStateVariable from "./ArrayStateVariable";
 import ParentStateComponent from "./ParentStateComponent";
 import { Provider } from "react-redux";
 import store from "./store";
-import ReduxExamples from "./ReduxExamples/page";
+import ReduxExamples from "./ReduxExamples/ReduxExamples";
 import { Container } from "react-bootstrap";
 
 export default function Lab4() {
