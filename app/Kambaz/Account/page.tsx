@@ -2,10 +2,11 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
+import { KambazState } from "../store/types";
 
 export default function AccountPage() {
   const router = useRouter();
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const { currentUser } = useSelector((state: KambazState) => state.accountReducer); 
 
   useEffect(() => {
     // Redirect to Profile if logged in, Signin if not
