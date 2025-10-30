@@ -9,11 +9,12 @@ import ModulesControls from "./ModulesControls";
 import ModuleControlButtons from "./ModuleControlButtons";
 import LessonControlButtons from "./LessonControlButtons";
 import { Module, Lesson } from "../../../Database/types";
+import { KambazState } from "../../../store/types";
 
 export default function Modules() {
   const { cid } = useParams();
   const [moduleName, setModuleName] = useState("");
-  const { modules } = useSelector((state: any) => state.modulesReducer);
+  const { modules } = useSelector((state: KambazState) => state.modulesReducer);
   const dispatch = useDispatch();
 
   return (
@@ -22,7 +23,7 @@ export default function Modules() {
         moduleName={moduleName}
         setModuleName={setModuleName}
         addModule={() => {
-          dispatch(addModule({ name: moduleName, course: cid }));
+          dispatch(addModule({ name: moduleName, course: cid as string }));
           setModuleName("");
         }}
       />
@@ -39,7 +40,6 @@ export default function Modules() {
               <div className="p-3 ps-2 bg-secondary text-white">
                 <BsGripVertical className="me-2 fs-3" />
                 
-                {/* EDITABLE MODULE NAME */}
                 {!(module as any).editing && module.name}
                 {(module as any).editing && (
                   <FormControl
@@ -63,7 +63,6 @@ export default function Modules() {
                 />
               </div>
               
-              {/* LESSONS */}
               {module.lessons && (
                 <ListGroup className="rounded-0">
                   {module.lessons.map((lesson: Lesson) => (

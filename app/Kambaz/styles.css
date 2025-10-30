@@ -1,0 +1,370 @@
+/* ========================================
+   FILE: app/(Kambaz)/styles.css
+   COMPLETE KAMBAZ STYLING TO MATCH CANVAS
+   ======================================== */
+
+/* Reset and Base Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  }
+  
+  body * {
+    font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  }
+  
+  /* Main Content Offset for Navigation Sidebar */
+  @media (min-width: 768px) {
+    #wd-kambaz .wd-main-content-offset {
+      margin-left: 120px !important;
+      padding: 20px !important;
+    }
+  }
+  
+  /* ========================================
+     NAVIGATION SIDEBAR STYLING
+     ======================================== */
+  
+  /* Kambaz Navigation - Black sidebar */
+  #wd-kambaz-navigation {
+    width: 120px !important;
+    background-color: #000000 !important;
+  }
+  
+  #wd-kambaz-navigation .list-group-item {
+    background-color: #000000 !important;
+    border: none !important;
+    padding: 15px 10px !important;
+  }
+  
+  /* Active navigation item - white background */
+  #wd-kambaz-navigation .list-group-item.bg-white {
+    background-color: #ffffff !important;
+  }
+  
+  /* Course Navigation Sidebar */
+  .list-group.wd > .list-group-item {
+    border-left: 3px solid transparent;
+    color: #d41b2c;
+    background-color: white;
+  }
+  
+  .list-group.wd > .list-group-item.active {
+    color: black !important;
+    background-color: white !important;
+    border-left: 3px solid black !important;
+    font-weight: 600;
+  }
+  
+  .list-group.wd > .list-group-item:hover {
+    background-color: #f5f5f5;
+  }
+  
+  /* ========================================
+     BUTTONS STYLING
+     ======================================== */
+  
+  /* Secondary buttons - gray color like Canvas */
+  .btn-secondary {
+    --bs-btn-color: #000 !important;
+    --bs-btn-bg: #d3d3d3 !important;
+    --bs-btn-border-color: #d3d3d3 !important;
+    --bs-btn-hover-bg: #c0c0c0 !important;
+    --bs-btn-hover-border-color: #c0c0c0 !important;
+  }
+  
+  /* Module title background - gray like Canvas */
+  .bg-secondary {
+    --bs-secondary-rgb: 230, 230, 230 !important;
+    background-color: #e6e6e6 !important;
+    color: #000000 !important;
+  }
+  
+  /* Success/Publish buttons */
+  .btn-success {
+    background-color: #0cab5a !important;
+    border-color: #0cab5a !important;
+  }
+  
+  /* Danger/Delete buttons */
+  .btn-danger {
+    background-color: #d41b2c !important;
+    border-color: #d41b2c !important;
+  }
+  
+  /* ========================================
+     MODULES STYLING
+     ======================================== */
+  
+  /* Module container */
+  .wd-module {
+    border: 1px solid #c7cdd1 !important;
+    margin-bottom: 10px !important;
+  }
+  
+  /* Module title bar */
+  .wd-title {
+    background-color: #e6e6e6 !important;
+    color: #000000 !important;
+    padding: 15px !important;
+    font-weight: 600;
+  }
+  
+  /* Lessons - green left border like Canvas */
+  .wd-lesson {
+    border-left: 4px solid #0cab5a !important;
+    padding: 12px 15px !important;
+    background-color: #f5f5f5 !important;
+  }
+  
+  .wd-lesson:hover {
+    background-color: #e8e8e8 !important;
+  }
+  
+  /* List group borders */
+  .list-group-item {
+    --bs-list-group-border-color: #c7cdd1 !important;
+  }
+  
+  /* ========================================
+     ASSIGNMENTS STYLING
+     ======================================== */
+  
+  /* Assignment list item */
+  .wd-assignment-list-item {
+    border-left: 4px solid #0cab5a !important;
+    padding: 15px !important;
+    margin-bottom: 5px !important;
+  }
+  
+  .wd-assignment-list-item:hover {
+    background-color: #f5f5f5 !important;
+  }
+  
+  /* Assignment title link */
+  .wd-assignment-link {
+    color: #d41b2c !important;
+    text-decoration: none !important;
+  }
+  
+  .wd-assignment-link:hover {
+    text-decoration: underline !important;
+  }
+  
+  /* ========================================
+     DASHBOARD STYLING
+     ======================================== */
+  
+  /* Dashboard course cards */
+  .wd-dashboard-course {
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .wd-dashboard-course:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .wd-dashboard-course .card {
+    border: 1px solid #c7cdd1;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .wd-dashboard-course-title {
+    color: #d41b2c !important;
+    font-weight: 600;
+    font-size: 14px !important;
+  }
+  
+  /* ========================================
+     PEOPLE SCREEN STYLING
+     ======================================== */
+  
+  #wd-people-table .table {
+    border: 1px solid #c7cdd1;
+  }
+  
+  #wd-people-table .table thead {
+    background-color: #f5f5f5;
+    font-weight: 600;
+  }
+  
+  #wd-people-table .table tbody tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  /* ========================================
+     HOME SCREEN - COURSE STATUS
+     ======================================== */
+  
+  #wd-course-status {
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #c7cdd1;
+    border-radius: 4px;
+  }
+  
+  #wd-course-status h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+  
+  #wd-course-status .btn {
+    margin-bottom: 10px;
+    text-align: left;
+    font-size: 14px;
+  }
+  
+  /* ========================================
+     FORMS AND INPUTS
+     ======================================== */
+  
+  .form-control {
+    border: 1px solid #c7cdd1;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+  
+  .form-control:focus {
+    border-color: #0cab5a;
+    box-shadow: 0 0 0 0.2rem rgba(12, 171, 90, 0.25);
+  }
+  
+  /* ========================================
+     ACCOUNT SCREENS STYLING
+     ======================================== */
+  
+  /* Account Navigation Sidebar */
+  #wd-account-navigation {
+    background-color: #000000;
+    width: 120px;
+    min-height: 100vh;
+    padding: 20px 10px;
+  }
+  
+  #wd-account-navigation a {
+    color: #d41b2c;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+  }
+  
+  #wd-account-navigation a:hover {
+    opacity: 0.8;
+  }
+  
+  /* Signin/Signup/Profile Forms */
+  .signin-container,
+  .signup-container,
+  .profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+  }
+  
+  .signin-card,
+  .signup-card,
+  .profile-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 100%;
+    max-width: 380px;
+  }
+  
+  .signin-title,
+  .signup-title,
+  .profile-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #2d3748;
+  }
+  
+  .signin-button,
+  .signup-button {
+    background-color: #3b7dd6 !important;
+    border-color: #3b7dd6 !important;
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 10px;
+  }
+  
+  .signin-button:hover,
+  .signup-button:hover {
+    background-color: #2d66b8 !important;
+    border-color: #2d66b8 !important;
+  }
+  
+  .signout-button {
+    background-color: #d41b2c !important;
+    border-color: #d41b2c !important;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  /* ========================================
+     RESPONSIVE DESIGN
+     ======================================== */
+  
+  /* Hide sidebars on mobile */
+  @media (max-width: 768px) {
+    #wd-kambaz-navigation {
+      display: none !important;
+    }
+    
+    #wd-kambaz .wd-main-content-offset {
+      margin-left: 0 !important;
+    }
+    
+    .d-md-block {
+      display: block !important;
+    }
+  }
+  
+  /* ========================================
+     UTILITIES
+     ======================================== */
+  
+  /* Green checkmark */
+  .text-success {
+    color: #0cab5a !important;
+  }
+  
+  /* Red text */
+  .text-danger {
+    color: #d41b2c !important;
+  }
+  
+  /* Gray borders */
+  .border-gray {
+    border-color: #c7cdd1 !important;
+  }
+  
+  /* Rounded corners */
+  .rounded-0 {
+    border-radius: 0 !important;
+  }
+  
+  /* Text overflow */
+  .text-nowrap {
+    white-space: nowrap !important;
+  }
+  
+  .overflow-hidden {
+    overflow: hidden !important;
+  }

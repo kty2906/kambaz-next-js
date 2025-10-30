@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import KambazNavigation from "./Components/Navigation";
 import { Provider } from "react-redux";
 import store from "./store";
+import "./styles.css";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 

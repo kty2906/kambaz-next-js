@@ -2,19 +2,20 @@
 import { useState } from "react";
 
 export default function EventObject() {
-  const [event, setEvent] = useState<any>(null);
+  const [event, setEvent] = useState<React.MouseEvent | null>(null);
   
-  const handleClick = (e: any) => {
-    e.target = e.target.outerHTML;
-    delete e.view;
-    setEvent(e);
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const eventCopy: any = { ...e };
+    eventCopy.target = e.currentTarget.outerHTML;
+    delete eventCopy.view;
+    setEvent(eventCopy);
   };
   
   return (
     <div>
       <h2>Event Object</h2>
       <button 
-        onClick={(e) => handleClick(e)}
+        onClick={handleClick}
         className="btn btn-primary"
         id="wd-display-event-obj-click"
       >

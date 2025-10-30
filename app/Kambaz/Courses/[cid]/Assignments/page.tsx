@@ -6,10 +6,11 @@ import { deleteAssignment } from "./reducer";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import { Button } from "react-bootstrap";
 import { Assignment } from "../../../Database/types";
+import { KambazState } from "../../../store/types";
 
 export default function Assignments() {
   const { cid } = useParams();
-  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const { assignments } = useSelector((state: KambazState) => state.assignmentsReducer);
   const dispatch = useDispatch();
 
   const handleDeleteAssignment = (assignmentId: string) => {
@@ -20,7 +21,7 @@ export default function Assignments() {
 
   return (
     <div id="wd-assignments">
-      <div className="d-flex justify-content-between align-items-center mb-3">
+      <div className="d-flex justify-content-between align-items-center mb-4">
         <input 
           type="text" 
           className="form-control w-50"
@@ -52,22 +53,24 @@ export default function Assignments() {
             <li 
               key={assignment._id} 
               className="list-group-item wd-assignment-list-item"
-              style={{ borderLeft: '3px solid green' }}
+              style={{ borderLeft: '4px solid #0cab5a' }}
             >
               <div className="d-flex justify-content-between align-items-center">
                 <div className="flex-grow-1">
                   <Link 
-                    href={`/Kambaz/Courses/${cid}/Assignments/${assignment._id}`}  
+                    href={`/Kambaz/Courses/${cid}/Assignments/${assignment._id}`}
                     className="text-decoration-none wd-assignment-link"
                   >
                     <strong className="text-danger fs-5">{assignment.title}</strong>
                   </Link>
-                  <div>
-                    <small className="text-muted d-block">
-                      <strong>Due:</strong> {new Date(assignment.dueDate).toLocaleDateString()}
-                    </small>
+                  <div className="mt-1">
                     <small className="text-muted">
-                      <strong>Points:</strong> {assignment.points}
+                      <strong>Multiple Modules</strong> | Not available until {new Date(assignment.availableDate).toLocaleDateString()}
+                    </small>
+                  </div>
+                  <div>
+                    <small className="text-muted">
+                      <strong>Due</strong> {new Date(assignment.dueDate).toLocaleDateString()} at 11:59pm | {assignment.points} pts
                     </small>
                   </div>
                 </div>

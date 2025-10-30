@@ -2,9 +2,10 @@
 import { useSelector, useDispatch } from "react-redux";
 import { increment, decrement } from "./counterReducer";
 import { Button } from "react-bootstrap";
+import { Lab4State } from "../../store/types";
 
 export default function CounterRedux() {
-  const { count } = useSelector((state: any) => state.counterReducer);
+  const { count } = useSelector((state: Lab4State) => state.counterReducer);
   const dispatch = useDispatch();
   
   return (

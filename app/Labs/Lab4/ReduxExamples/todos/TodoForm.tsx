@@ -3,9 +3,10 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addTodo, updateTodo, setTodo } from "./todosReducer";
 import { ListGroupItem, Button, FormControl } from "react-bootstrap";
+import { Lab4State } from "../../store/types";
 
 export default function TodoForm() {
-  const { todo } = useSelector((state: any) => state.todosReducer);
+  const { todo } = useSelector((state: Lab4State) => state.todosReducer);
   const dispatch = useDispatch();
   
   return (

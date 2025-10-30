@@ -8,9 +8,10 @@ import { addCourse, deleteCourse, updateCourse } from "./reducer";
 import { useState } from "react";
 import { Button, FormControl, Row, Col, Card, CardImg, CardBody, CardTitle, CardText } from "react-bootstrap";
 import { Course } from "../Database/types";
+import { KambazState } from "../store/types";
 
 export default function Dashboard() {
-  const { courses } = useSelector((state: any) => state.coursesReducer);
+  const { courses } = useSelector((state: KambazState) => state.coursesReducer);
   const dispatch = useDispatch();
   
   const [course, setCourse] = useState<Course>({
@@ -48,7 +49,9 @@ export default function Dashboard() {
   const handleDeleteCourse = (courseId: string, event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
-    dispatch(deleteCourse(courseId));
+    if (window.confirm("Are you sure you want to delete this course?")) {
+      dispatch(deleteCourse(courseId));
+    }
   };
 
   const handleEditCourse = (courseToEdit: Course, event: React.MouseEvent) => {
