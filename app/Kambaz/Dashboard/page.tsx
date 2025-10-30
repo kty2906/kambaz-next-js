@@ -1,19 +1,64 @@
+"use client"
 import Link from "next/link";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaFileImport } from "react-icons/fa";
 import './dashboard.css';
-import * as db from "../Database";
+import { useSelector, useDispatch } from "react-redux";
+import { addCourse, deleteCourse, updateCourse } from "./reducer";
+import { useState } from "react";
+import { Button, FormControl, Row, Col, Card, CardImg, CardBody, CardTitle, CardText } from "react-bootstrap";
+import { Course } from "../Database/types";
 
 export default function Dashboard() {
-  // Get courses from database
-  const courses = db.courses;
+  const { courses } = useSelector((state: any) => state.coursesReducer);
+  const dispatch = useDispatch();
+  
+  const [course, setCourse] = useState<Course>({
+    _id: "0",
+    name: "New Course",
+    number: "New Number",
+    startDate: "2023-09-10",
+    endDate: "2023-12-15",
+    department: "New Department",
+    credits: 4,
+    description: "New Description"
+  });
 
-  // Map course IDs to colors (keeping your original colors)
   const courseColors: { [key: string]: string } = {
     "1234": "#4CAF50",
     "2001": "#4CAF50",
     "3002": "#1976D2",
     "4003": "#2196F3"
+  };
+
+  const handleAddCourse = () => {
+    dispatch(addCourse(course));
+    setCourse({
+      _id: "0",
+      name: "New Course",
+      number: "New Number",
+      startDate: "2023-09-10",
+      endDate: "2023-12-15",
+      department: "New Department",
+      credits: 4,
+      description: "New Description"
+    });
+  };
+
+  const handleDeleteCourse = (courseId: string, event: React.MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    dispatch(deleteCourse(courseId));
+  };
+
+  const handleEditCourse = (courseToEdit: Course, event: React.MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setCourse(courseToEdit);
+  };
+
+  const handleUpdateCourse = () => {
+    dispatch(updateCourse(course));
   };
 
   return (
@@ -22,22 +67,66 @@ export default function Dashboard() {
         <h1 id="wd-dashboard-title" className="mb-0">Dashboard</h1>
         <hr />
         
+        {/* NEW COURSE FORM */}
+        <div className="mb-4">
+          <h5>
+            New Course
+            <Button 
+              variant="primary" 
+              className="float-end"
+              onClick={handleAddCourse}
+              id="wd-add-new-course-click"
+            >
+              Add
+            </Button>
+            <Button 
+              variant="warning" 
+              className="float-end me-2"
+              onClick={handleUpdateCourse}
+              id="wd-update-course-click"
+            >
+              Update
+            </Button>
+          </h5>
+          <br /><br />
+          <FormControl 
+            value={course.name}
+            className="mb-2"
+            onChange={(e) => setCourse({ ...course, name: e.target.value })}
+            placeholder="Course Name"
+          />
+          <FormControl 
+            value={course.number}
+            className="mb-2"
+            onChange={(e) => setCourse({ ...course, number: e.target.value })}
+            placeholder="Course Number"
+          />
+          <FormControl 
+            as="textarea"
+            value={course.description}
+            rows={3}
+            onChange={(e) => setCourse({ ...course, description: e.target.value })}
+            placeholder="Course Description"
+          />
+        </div>
+        <hr />
+        
         <h2 id="wd-dashboard-published" className="fs-5 mb-4">
           Published Courses ({courses.length})
         </h2>
 
         <div id="wd-dashboard-courses" className="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
-          {courses.map((course) => (
-            <div key={course._id} className="col">
+          {courses.map((c: Course) => (
+            <div key={c._id} className="col">
               <div className="card wd-dashboard-course h-100">
                 <Link 
-                  href={`/Kambaz/Courses/${course._id}/Home`} 
+                  href={`/Kambaz/Courses/${c._id}/Home`} 
                   className="text-decoration-none"
                 >
                   <div 
                     className="card-img-top position-relative" 
                     style={{ 
-                      backgroundColor: courseColors[course._id] || "#4CAF50",
+                      backgroundColor: courseColors[c._id] || "#4CAF50",
                       height: '150px',
                       overflow: 'hidden'
                     }}
@@ -54,14 +143,34 @@ export default function Dashboard() {
                   
                   <div className="card-body">
                     <h5 className="card-title text-danger mb-2" style={{ fontSize: '14px' }}>
-                      {course.name}
+                      {c.name}
                     </h5>
                     <p className="card-text text-dark mb-1" style={{ fontSize: '13px' }}>
-                      {course.number}
+                      {c.number}
                     </p>
                     <p className="card-text text-muted" style={{ fontSize: '12px' }}>
-                      {course.description}
+                      {c.description}
                     </p>
+                    
+                    {/* CRUD BUTTONS */}
+                    <div className="d-flex gap-2 mt-2">
+                      <Button 
+                        variant="warning" 
+                        size="sm"
+                        onClick={(e) => handleEditCourse(c, e)}
+                        id="wd-edit-course-click"
+                      >
+                        Edit
+                      </Button>
+                      <Button 
+                        variant="danger" 
+                        size="sm"
+                        onClick={(e) => handleDeleteCourse(c._id, e)}
+                        id="wd-delete-course-click"
+                      >
+                        Delete
+                      </Button>
+                    </div>
                   </div>
                 </Link>
                 

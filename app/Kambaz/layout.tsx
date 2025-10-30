@@ -1,17 +1,28 @@
-"use client";
-import Navigation from "./Components/Navigation";
-import "./kambaz.css";
+"use client"
+import { ReactNode } from "react";
+import KambazNavigation from "./Components/Navigation";
+import { Provider } from "react-redux";
+import store from "./store";
 
-export default function KambaLayout({ children }: { children: React.ReactNode }) {
+import "bootstrap/dist/css/bootstrap.min.css";
+
+export default function KambazLayout({ 
+  children 
+}: { 
+  children: ReactNode 
+}) {
   return (
-    <div className="kambaz-layout">
-      {/* Main Navigation Sidebar (Left Side - Black Background) */}
-      <Navigation />
-      
-      {/* Main Content Area */}
-      <main className="kambaz-main">
-        {children}
-      </main>
-    </div>
+    <Provider store={store}>
+      <div id="wd-kambaz">
+        <div className="d-flex">
+          <div>
+            <KambazNavigation />
+          </div>
+          <div className="wd-main-content-offset p-3 flex-fill">
+            {children}
+          </div>
+        </div>
+      </div>
+    </Provider>
   );
 }
