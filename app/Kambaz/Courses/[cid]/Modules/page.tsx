@@ -11,6 +11,11 @@ import LessonControlButtons from "./LessonControlButtons";
 import { Module, Lesson } from "../../../Database/types";
 import { KambazState } from "../../../store/types";
 
+// Define extended module type with editing property
+interface ModuleWithEditing extends Module {
+  editing?: boolean;
+}
+
 export default function Modules() {
   const { cid } = useParams();
   const [moduleName, setModuleName] = useState("");
@@ -32,53 +37,57 @@ export default function Modules() {
       <ListGroup className="rounded-0">
         {modules
           .filter((module: Module) => module.course === cid)
-          .map((module: Module) => (
-            <ListGroupItem 
-              key={module._id} 
-              className="p-0 mb-5 fs-5 border-gray"
-            >
-              <div className="p-3 ps-2 bg-secondary text-white">
-                <BsGripVertical className="me-2 fs-3" />
-                
-                {!(module as any).editing && module.name}
-                {(module as any).editing && (
-                  <FormControl
-                    className="w-50 d-inline-block"
-                    value={module.name}
-                    onChange={(e) =>
-                      dispatch(updateModule({ ...module, name: e.target.value }))
-                    }
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        dispatch(updateModule({ ...module, editing: false }));
+          .map((module: Module) => {
+            const moduleWithEditing = module as ModuleWithEditing; // ✅ Fixed
+            
+            return (
+              <ListGroupItem 
+                key={module._id} 
+                className="p-0 mb-5 fs-5 border-gray"
+              >
+                <div className="p-3 ps-2 bg-secondary text-white">
+                  <BsGripVertical className="me-2 fs-3" />
+                  
+                  {!moduleWithEditing.editing && module.name}
+                  {moduleWithEditing.editing && (
+                    <FormControl
+                      className="w-50 d-inline-block"
+                      value={module.name}
+                      onChange={(e) =>
+                        dispatch(updateModule({ ...module, name: e.target.value }))
                       }
-                    }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          dispatch(updateModule({ ...module, editing: false }));
+                        }
+                      }}
+                    />
+                  )}
+                  
+                  <ModuleControlButtons
+                    moduleId={module._id}
+                    deleteModule={(moduleId) => dispatch(deleteModule(moduleId))}
+                    editModule={(moduleId) => dispatch(editModule(moduleId))}
                   />
-                )}
+                </div>
                 
-                <ModuleControlButtons
-                  moduleId={module._id}
-                  deleteModule={(moduleId) => dispatch(deleteModule(moduleId))}
-                  editModule={(moduleId) => dispatch(editModule(moduleId))}
-                />
-              </div>
-              
-              {module.lessons && (
-                <ListGroup className="rounded-0">
-                  {module.lessons.map((lesson: Lesson) => (
-                    <ListGroupItem 
-                      key={lesson._id} 
-                      className="p-3 ps-4"
-                    >
-                      <BsGripVertical className="me-2 fs-3" />
-                      {lesson.name}
-                      <LessonControlButtons />
-                    </ListGroupItem>
-                  ))}
-                </ListGroup>
-              )}
-            </ListGroupItem>
-          ))}
+                {module.lessons && (
+                  <ListGroup className="rounded-0">
+                    {module.lessons.map((lesson: Lesson) => (
+                      <ListGroupItem 
+                        key={lesson._id} 
+                        className="p-3 ps-4"
+                      >
+                        <BsGripVertical className="me-2 fs-3" />
+                        {lesson.name}
+                        <LessonControlButtons />
+                      </ListGroupItem>
+                    ))}
+                  </ListGroup>
+                )}
+              </ListGroupItem>
+            );
+          })}
       </ListGroup>
     </div>
   );

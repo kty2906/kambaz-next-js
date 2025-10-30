@@ -1,14 +1,23 @@
 "use client"
 import { useState } from "react";
 
+interface SerializedEvent {
+  target?: string;
+  type?: string;
+  timeStamp?: number;
+  [key: string]: string | number | undefined;
+}
+
 export default function EventObject() {
-  const [event, setEvent] = useState<React.MouseEvent | null>(null);
+  const [event, setEvent] = useState<SerializedEvent | null>(null);
   
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const eventCopy: any = { ...e };
-    eventCopy.target = e.currentTarget.outerHTML;
-    delete eventCopy.view;
-    setEvent(eventCopy);
+    const serializedEvent: SerializedEvent = {
+      type: e.type,
+      timeStamp: e.timeStamp,
+      target: e.currentTarget.outerHTML,
+    };
+    setEvent(serializedEvent);
   };
   
   return (
