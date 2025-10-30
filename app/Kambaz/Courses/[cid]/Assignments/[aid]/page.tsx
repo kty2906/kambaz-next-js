@@ -6,11 +6,12 @@ import { Button, Form, Row, Col } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { addAssignment, updateAssignment } from "../reducer";
 import { Assignment } from "../../../../Database/types";
+import { KambazState } from "../../../../store/types"; 
 
 export default function AssignmentEditor() {
   const router = useRouter();
   const { cid, aid } = useParams();
-  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const { assignments } = useSelector((state: KambazState) => state.assignmentsReducer);
   const dispatch = useDispatch();
   
   // Find existing assignment or create new one

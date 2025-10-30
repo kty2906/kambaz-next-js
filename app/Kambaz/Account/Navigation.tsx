@@ -3,9 +3,10 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import { usePathname } from "next/navigation";
 import './navigation.css';
+import { KambazState } from "../store/types";
 
 export default function AccountNavigation() {
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const { currentUser } = useSelector((state: KambazState) => state.accountReducer);
   const pathname = usePathname();
   
   // Show different links based on login status

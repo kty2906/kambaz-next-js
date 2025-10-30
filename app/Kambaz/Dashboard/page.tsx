@@ -6,7 +6,17 @@ import './dashboard.css';
 import { useSelector, useDispatch } from "react-redux";
 import { addCourse, deleteCourse, updateCourse } from "./reducer";
 import { useState } from "react";
-import { Button, FormControl, Row, Col, Card, CardImg, CardBody, CardTitle, CardText } from "react-bootstrap";
+import { 
+  Button, 
+  FormControl, 
+  Row, 
+  Col, 
+  Card, 
+  CardImg, 
+  CardBody, 
+  CardTitle 
+ 
+} from "react-bootstrap";
 import { Course } from "../Database/types";
 import { KambazState } from "../store/types";
 
