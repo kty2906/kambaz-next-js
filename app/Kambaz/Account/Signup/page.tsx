@@ -5,9 +5,11 @@ import * as client from "../client";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../reducer";
 import Link from "next/link";
+import axios from "axios";
+import { User } from "../../Database/types";
 
 export default function Signup() {
-  const [user, setUser] = useState<any>({});
+  const [user, setUser] = useState<Partial<User>>({});
   const [error, setError] = useState("");
   const router = useRouter();
   const dispatch = useDispatch();
@@ -17,8 +19,12 @@ export default function Signup() {
       const currentUser = await client.signup(user);
       dispatch(setCurrentUser(currentUser));
       router.push("/Kambaz/Account/Profile");
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Signup failed. Please try again.");
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.data?.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("Signup failed. Please try again.");
+      }
     }
   };
 

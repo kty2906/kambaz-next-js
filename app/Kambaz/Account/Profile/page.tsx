@@ -4,12 +4,14 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUser } from "../reducer";
 import * as client from "../client";
+import { User } from "../../Database/types";
+import { KambazState } from "../../store/types";
 
 export default function Profile() {
-  const [profile, setProfile] = useState<any>({});
+  const [profile, setProfile] = useState<Partial<User>>({});
   const dispatch = useDispatch();
   const router = useRouter();
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const { currentUser } = useSelector((state: KambazState) => state.accountReducer);
 
   useEffect(() => {
     if (currentUser) {

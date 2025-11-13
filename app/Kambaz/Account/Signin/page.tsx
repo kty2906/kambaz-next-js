@@ -5,9 +5,15 @@ import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../reducer";
 import * as client from "../client";
 import Link from "next/link";
+import axios from "axios";
+
+interface Credentials {
+  username?: string;
+  password?: string;
+}
 
 export default function Signin() {
-  const [credentials, setCredentials] = useState<any>({});
+  const [credentials, setCredentials] = useState<Credentials>({});
   const [error, setError] = useState("");
   const router = useRouter();
   const dispatch = useDispatch();
@@ -18,8 +24,12 @@ export default function Signin() {
       if (!user) return;
       dispatch(setCurrentUser(user));
       router.push("/Kambaz/Dashboard");
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Login failed. Please try again.");
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.data?.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("Login failed. Please try again.");
+      }
     }
   };
 
