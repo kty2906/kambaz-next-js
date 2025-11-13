@@ -1,42 +1,71 @@
-import Link from 'next/link';
-import './signup.css';
+"use client";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import * as client from "../client";
+import { useDispatch } from "react-redux";
+import { setCurrentUser } from "../reducer";
+import Link from "next/link";
+import axios from "axios";
+import { User } from "../../Database/types";
 
 export default function Signup() {
+  const [user, setUser] = useState<Partial<User>>({});
+  const [error, setError] = useState("");
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const signup = async () => {
+    try {
+      const currentUser = await client.signup(user);
+      dispatch(setCurrentUser(currentUser));
+      router.push("/Kambaz/Account/Profile");
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.data?.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("Signup failed. Please try again.");
+      }
+    }
+  };
+
   return (
-    <div className="signup-container">
-      <div className="signup-card">
-        <h1 className="signup-title">Signup</h1>
-        
-        <form className="signup-form">
-          <input 
-            type="text"
-            placeholder="username" 
-            className="wd-username form-input" 
-          />
-          
-          <input 
-            placeholder="password" 
-            type="password" 
-            className="wd-password form-input" 
-          />
-          
-          <Link 
-            id="wd-signup-btn" 
-            href="/Profile"
-            className="signup-button"
-          >
-            Signup
-          </Link>
-          
-          <Link 
-            id="wd-signin-link" 
-            href="/Signin"
-            className="signin-link"
-          >
-            Signin
-          </Link>
-        </form>
-      </div>
+    <div className="wd-signup-screen">
+      <h1>Sign up</h1>
+      
+      {error && (
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+      )}
+
+      <input
+        value={user.username || ""}
+        onChange={(e) => setUser({ ...user, username: e.target.value })}
+        className="form-control mb-2"
+        placeholder="username"
+        id="wd-username"
+      />
+      
+      <input
+        value={user.password || ""}
+        onChange={(e) => setUser({ ...user, password: e.target.value })}
+        className="form-control mb-2"
+        placeholder="password"
+        type="password"
+        id="wd-password"
+      />
+      
+      <button
+        onClick={signup}
+        className="btn btn-primary w-100 mb-2"
+        id="wd-signup-btn"
+      >
+        Sign up
+      </button>
+      
+      <Link href="/Kambaz/Account/Signin" className="wd-signin-link">
+        Sign in
+      </Link>
     </div>
   );
 }

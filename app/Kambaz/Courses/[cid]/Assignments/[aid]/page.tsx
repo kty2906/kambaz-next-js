@@ -1,94 +1,183 @@
-"use client"
-import React from "react";
-import { useParams } from "next/navigation";
-import Link from "next/link";
-import { Button, Form } from "react-bootstrap";
-import * as db from "../../../../Database";
+"use client";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addAssignment, updateAssignment } from "../reducer";
+import * as coursesClient from "../../../client";
+import * as assignmentsClient from "../client";
+import { Button } from "react-bootstrap";
+import { Assignment } from "../../../../Database/types";
+import { KambazState } from "../../../../store/types";
 
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
-  const assignment = db.assignments.find((a: any) => a._id === aid);
+  const router = useRouter();
+  const dispatch = useDispatch();
   
-  if (!assignment) {
-    return (
-      <div className="alert alert-warning">
-        Assignment not found
-      </div>
-    );
+  const { assignments } = useSelector((state: KambazState) => state.assignmentsReducer);
+  
+  interface AssignmentWithExtra extends Partial<Assignment> {
+    availableUntilDate?: string;
   }
-  
+
+  const [assignment, setAssignment] = useState<AssignmentWithExtra>({
+    _id: "",
+    title: "New Assignment",
+    course: cid as string,
+    description: "New Assignment Description",
+    points: 100,
+    dueDate: "2024-05-13",
+    availableDate: "2024-05-06",
+    availableUntilDate: "2024-05-20",
+  });
+
+  const isNewAssignment = aid === "new";
+
+  useEffect(() => {
+    if (!isNewAssignment) {
+      const existingAssignment = assignments.find((a) => a._id === aid);
+      if (existingAssignment) {
+        setAssignment(existingAssignment);
+      }
+    }
+  }, [aid, assignments, isNewAssignment]);
+
+  const handleSave = async () => {
+    try {
+      if (isNewAssignment) {
+        // Create new assignment
+        const newAssignment = await coursesClient.createAssignmentForCourse(
+          cid as string,
+          assignment
+        );
+        dispatch(addAssignment(newAssignment));
+        alert("Assignment created successfully!");
+      } else {
+        // Update existing assignment
+        if (!assignment._id) {
+          alert("Cannot update assignment: missing assignment ID");
+          return;
+        }
+        await assignmentsClient.updateAssignment(assignment as Assignment);
+        dispatch(updateAssignment(assignment as Assignment));
+        alert("Assignment updated successfully!");
+      }
+      router.push(`/Kambaz/Courses/${cid}/Assignments`);
+    } catch (error) {
+      console.error("Failed to save assignment:", error);
+      alert("Failed to save assignment");
+    }
+  };
+
+  const handleCancel = () => {
+    router.push(`/Kambaz/Courses/${cid}/Assignments`);
+  };
+
   return (
-    <div id="wd-assignment-editor">
-      <h3>Assignment Editor</h3>
+    <div id="wd-assignments-editor" className="container mt-4">
+      <h3>{isNewAssignment ? "New Assignment" : "Edit Assignment"}</h3>
       
-      <Form className="mt-4">
-        <Form.Group className="mb-3">
-          <Form.Label>Assignment Name</Form.Label>
-          <Form.Control 
-            type="text" 
-            defaultValue={assignment.title}
-            id="wd-name"
-          />
-        </Form.Group>
-        
-        <Form.Group className="mb-3">
-          <Form.Label>Description</Form.Label>
-          <Form.Control 
-            as="textarea" 
-            rows={5}
-            defaultValue={assignment.description}
-            id="wd-description"
-          />
-        </Form.Group>
-        
-        <Form.Group className="mb-3">
-          <Form.Label>Points</Form.Label>
-          <Form.Control 
-            type="number" 
-            defaultValue={assignment.points}
+      <div className="mb-3">
+        <label htmlFor="wd-name" className="form-label">
+          Assignment Name
+        </label>
+        <input
+          id="wd-name"
+          className="form-control"
+          value={assignment.title}
+          onChange={(e) =>
+            setAssignment({ ...assignment, title: e.target.value })
+          }
+        />
+      </div>
+
+      <div className="mb-3">
+        <label htmlFor="wd-description" className="form-label">
+          Description
+        </label>
+        <textarea
+          id="wd-description"
+          className="form-control"
+          rows={5}
+          value={assignment.description}
+          onChange={(e) =>
+            setAssignment({ ...assignment, description: e.target.value })
+          }
+        />
+      </div>
+
+      <div className="row mb-3">
+        <div className="col-md-6">
+          <label htmlFor="wd-points" className="form-label">
+            Points
+          </label>
+          <input
             id="wd-points"
+            type="number"
+            className="form-control"
+            value={assignment.points}
+            onChange={(e) =>
+              setAssignment({ ...assignment, points: parseInt(e.target.value) })
+            }
           />
-        </Form.Group>
-        
-        <Form.Group className="mb-3">
-          <Form.Label>Due Date</Form.Label>
-          <Form.Control 
-            type="date" 
-            defaultValue={assignment.dueDate}
-            id="wd-due-date"
-          />
-        </Form.Group>
-        
-        <Form.Group className="mb-3">
-          <Form.Label>Available From</Form.Label>
-          <Form.Control 
-            type="date" 
-            defaultValue={assignment.availableDate}
-            id="wd-available-from"
-          />
-        </Form.Group>
-        
-        <div className="d-flex gap-2 mt-4">
-          <Link
-            href={`/Kambaz/Courses/${cid}/Assignments`}
-            passHref
-            id="wd-cancel"
-          >
-            <Button variant="secondary">
-            Cancel
-            </Button>
-          </Link>
-          <Link
-            href={`/Kambaz/Courses/${cid}/Assignments`}
-            passHref
-            id="wd-save"
-          >
-            <Button variant="danger">
-            Save
-            </Button>
-          </Link>
         </div>
-      </Form>
+      </div>
+
+      <div className="mb-3">
+        <label htmlFor="wd-available-from" className="form-label">
+          Available from
+        </label>
+        <input
+          id="wd-available-from"
+          type="date"
+          className="form-control"
+          value={assignment.availableDate}
+          onChange={(e) =>
+            setAssignment({ ...assignment, availableDate: e.target.value })
+          }
+        />
+      </div>
+
+      <div className="mb-3">
+        <label htmlFor="wd-due-date" className="form-label">
+          Due Date
+        </label>
+        <input
+          id="wd-due-date"
+          type="date"
+          className="form-control"
+          value={assignment.dueDate}
+          onChange={(e) =>
+            setAssignment({ ...assignment, dueDate: e.target.value })
+          }
+        />
+      </div>
+
+      <div className="mb-3">
+        <label htmlFor="wd-available-until" className="form-label">
+          Available Until
+        </label>
+        <input
+          id="wd-available-until"
+          type="date"
+          className="form-control"
+          value={assignment.availableUntilDate}
+          onChange={(e) =>
+            setAssignment({ ...assignment, availableUntilDate: e.target.value })
+          }
+        />
+      </div>
+
+      <hr />
+
+      <div className="d-flex justify-content-end gap-2">
+        <Button variant="secondary" onClick={handleCancel}>
+          Cancel
+        </Button>
+        <Button variant="danger" onClick={handleSave} id="wd-save-assignment">
+          Save
+        </Button>
+      </div>
     </div>
   );
 }

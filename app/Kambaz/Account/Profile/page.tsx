@@ -1,70 +1,121 @@
-import Link from 'next/link';
-import './Profile.css';
+"use client";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentUser } from "../reducer";
+import * as client from "../client";
+import { User } from "../../Database/types";
+import { KambazState } from "../../store/types";
 
 export default function Profile() {
+  const [profile, setProfile] = useState<Partial<User>>({});
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { currentUser } = useSelector((state: KambazState) => state.accountReducer);
+
+  useEffect(() => {
+    if (currentUser) {
+      setProfile(currentUser);
+    }
+  }, [currentUser]);
+
+  const updateProfile = async () => {
+    if (!profile._id || !currentUser?._id) {
+      alert("Cannot update profile: missing user ID");
+      return;
+    }
+    try {
+      const updatedProfile = await client.updateUser(profile as User);
+      dispatch(setCurrentUser(updatedProfile));
+      alert("Profile updated successfully!");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to update profile");
+    }
+  };
+
+  const signout = async () => {
+    await client.signout();
+    dispatch(setCurrentUser(null));
+    router.push("/Kambaz/Account/Signin");
+  };
+
   return (
-    <div className="profile-container">
-      <div className="profile-card">
-        <h1 className="profile-title">Profile</h1>
-        
-        <form className="profile-form">
-          <input 
-            type="text"
-            placeholder="username" 
-            className="wd-username form-input"
-            defaultValue="alice"
+    <div id="wd-profile-screen">
+      <h3>Profile</h3>
+      {profile && (
+        <div>
+          <input
+            id="wd-username"
+            value={profile.username || ""}
+            onChange={(e) => setProfile({ ...profile, username: e.target.value })}
+            className="form-control mb-2"
+            placeholder="username"
           />
-          
-          <input 
-            type="text"
-            placeholder="password" 
-            className="wd-password form-input"
-            defaultValue="123"
+          <input
+            id="wd-password"
+            value={profile.password || ""}
+            onChange={(e) => setProfile({ ...profile, password: e.target.value })}
+            className="form-control mb-2"
+            placeholder="password"
+            type="password"
           />
-          
-          <input 
-            type="text"
-            placeholder="First Name" 
-            className="wd-firstname form-input"
-            defaultValue="Alice"
+          <input
+            id="wd-firstname"
+            value={profile.firstName || ""}
+            onChange={(e) => setProfile({ ...profile, firstName: e.target.value })}
+            className="form-control mb-2"
+            placeholder="First Name"
           />
-          
-          <input 
-            type="text"
-            placeholder="Last Name" 
-            className="wd-lastname form-input"
-            defaultValue="Wonderland"
+          <input
+            id="wd-lastname"
+            value={profile.lastName || ""}
+            onChange={(e) => setProfile({ ...profile, lastName: e.target.value })}
+            className="form-control mb-2"
+            placeholder="Last Name"
           />
-          
-          <input 
+          <input
+            id="wd-dob"
+            value={profile.dob || ""}
+            onChange={(e) => setProfile({ ...profile, dob: e.target.value })}
+            className="form-control mb-2"
             type="date"
-            placeholder="Date of Birth" 
-            className="wd-dob form-input"
           />
-          
-          <input 
+          <input
+            id="wd-email"
+            value={profile.email || ""}
+            onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+            className="form-control mb-2"
+            placeholder="email"
             type="email"
-            placeholder="email" 
-            className="wd-email form-input"
-            defaultValue="alice@wonderland.com"
           />
-          
-          <select className="wd-role form-input">
+          <select
+            id="wd-role"
+            value={profile.role || "USER"}
+            onChange={(e) => setProfile({ ...profile, role: e.target.value })}
+            className="form-control mb-2"
+          >
             <option value="USER">User</option>
             <option value="ADMIN">Admin</option>
             <option value="FACULTY">Faculty</option>
             <option value="STUDENT">Student</option>
           </select>
-          
-          <Link 
-            id="wd-signout-btn" 
-            href="/Signin"
-            className="signout-button"
+          <button
+            onClick={updateProfile}
+            className="btn btn-primary w-100 mb-2"
+            id="wd-update-btn"
           >
-            Signout
-          </Link>
-        </form>
-      </div>
+            Update
+          </button>
+          <button
+            onClick={signout}
+            className="btn btn-danger w-100"
+            id="wd-signout-btn"
+          >
+            Sign out
+          </button>
+        </div>
+      )}
     </div>
   );
 }

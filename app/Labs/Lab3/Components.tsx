@@ -6,11 +6,11 @@ import MathUtils, { add, subtract, multiply as multiplyFn, divide } from "./Math
 import * as Matematica from "./Math";
 import "./Classes.css";
 
-// ============ BASIC COMPONENTS ============
+
 
 export function VariablesAndConstants() {
-  var functionScoped = 2;
-  let blockScoped = 5;
+  const functionScoped = 2;
+  const blockScoped = 5;
   const constant1 = functionScoped - blockScoped;
   
   return (
@@ -24,13 +24,13 @@ export function VariablesAndConstants() {
 }
 
 export function VariableTypes() {
-  let numberVariable = 123;
-  let floatingPointNumber = 234.345;
-  let stringVariable = 'Hello World!';
-  let booleanVariable = true;
-  let isNumber = typeof numberVariable;
-  let isString = typeof stringVariable;
-  let isBoolean = typeof booleanVariable;
+  const numberVariable = 123;
+  const floatingPointNumber = 234.345;
+  const stringVariable = 'Hello World!';
+  const booleanVariable = true;
+  const isNumber = typeof numberVariable;
+  const isString = typeof stringVariable;
+  const isBoolean = typeof booleanVariable;
   
   return (
     <div id="wd-variable-types">
@@ -47,16 +47,16 @@ export function VariableTypes() {
 }
 
 export function BooleanVariables() {
-  let numberVariable = 123;
-  let floatingPointNumber = 234.345;
-  let true1 = true;
-  let false1 = false;
-  let false2 = true1 && false1;
-  let true2 = true1 || false1;
-  let true3 = !false2;
-  let true4 = numberVariable === 123;
-  let true5 = floatingPointNumber !== 321.432;
-  let false3 = numberVariable < 100;
+  const numberVariable = 123;
+  const floatingPointNumber: number = 234.345;
+  const true1 = true;
+  const false1 = false;
+  const false2 = true1 && false1;
+  const true2 = true1 || false1;
+  const true3 = !false2;
+  const true4 = numberVariable === 123;
+  const true5 = floatingPointNumber !== 321.432;
+  const false3 = numberVariable < 100;
   
   return (
     <div id="wd-boolean-variables">
@@ -76,8 +76,8 @@ export function BooleanVariables() {
 // ============ CONDITIONALS ============
 
 export function IfElse() {
-  let true1 = true;
-  let false1 = false;
+  const true1 = true;
+  const false1 = false;
   
   return (
     <div id="wd-if-else">
@@ -89,7 +89,7 @@ export function IfElse() {
 }
 
 export function TernaryOperator() {
-  let loggedIn = true;
+  const loggedIn = true;
   
   return (
     <div id="wd-ternary-operator">
@@ -194,16 +194,16 @@ export function TemplateLiterals() {
   );
 }
 
-// ============ ARRAYS ============
+
 
 export function SimpleArrays() {
-  var functionScoped = 2;
-  let blockScoped = 5;
+  const functionScoped = 2;
+  const blockScoped = 5;
   const constant1 = functionScoped - blockScoped;
-  let numberArray1 = [1, 2, 3, 4, 5];
-  let stringArray1 = ["string1", "string2"];
-  let htmlArray1 = [<li key="1">Buy milk</li>, <li key="2">Feed the pets</li>];
-  let variableArray1 = [
+  const numberArray1 = [1, 2, 3, 4, 5];
+  const stringArray1 = ["string1", "string2"];
+  const htmlArray1 = [<li key="1">Buy milk</li>, <li key="2">Feed the pets</li>];
+  const variableArray1 = [
     functionScoped,
     blockScoped,
     constant1,
@@ -225,7 +225,7 @@ export function SimpleArrays() {
 }
 
 export function ArrayIndexAndLength() {
-  let numberArray1 = [1, 2, 3, 4, 5];
+  const numberArray1 = [1, 2, 3, 4, 5];
   const length1 = numberArray1.length;
   const index1 = numberArray1.indexOf(3);
   
@@ -239,9 +239,9 @@ export function ArrayIndexAndLength() {
 }
 
 export function AddingAndRemovingToFromArrays() {
-  let numberArray1 = [1, 2, 3, 4, 5];
-  let stringArray1 = ["string1", "string2"];
-  let todoArray = [<li key="1">Buy milk</li>, <li key="2">Feed the pets</li>];
+  const numberArray1 = [1, 2, 3, 4, 5];
+  const stringArray1 = ["string1", "string2"];
+  const todoArray = [<li key="1">Buy milk</li>, <li key="2">Feed the pets</li>];
   
   numberArray1.push(6);
   stringArray1.push("string3");
@@ -262,8 +262,8 @@ export function AddingAndRemovingToFromArrays() {
 }
 
 export function ForLoops() {
-  let stringArray1 = ["string1", "string3"];
-  let stringArray2 = [];
+  const stringArray1 = ["string1", "string3"];
+  const stringArray2 = [];
   
   for (let i = 0; i < stringArray1.length; i++) {
     const string1 = stringArray1[i];
@@ -279,7 +279,7 @@ export function ForLoops() {
 }
 
 export function MapFunction() {
-  let numberArray1 = [1, 2, 3, 4, 5, 6];
+  const numberArray1 = [1, 2, 3, 4, 5, 6];
   const square = (a: number) => a * a;
   const todos = ["Buy milk", "Feed the pets"];
   const squares = numberArray1.map(square);
@@ -301,8 +301,8 @@ export function MapFunction() {
 }
 
 export function FindFunction() {
-  let numberArray1 = [1, 2, 3, 4, 5];
-  let stringArray1 = ["string1", "string2", "string3"];
+  const numberArray1 = [1, 2, 3, 4, 5];
+  const stringArray1 = ["string1", "string2", "string3"];
   const four = numberArray1.find((a) => a === 4);
   const string3 = stringArray1.find((a) => a === "string3");
   
@@ -316,8 +316,8 @@ export function FindFunction() {
 }
 
 export function FindIndex() {
-  let numberArray1 = [1, 2, 4, 5, 6];
-  let stringArray1 = ['string1', 'string3'];
+  const numberArray1 = [1, 2, 4, 5, 6];
+  const stringArray1 = ['string1', 'string3'];
   const fourIndex = numberArray1.findIndex(a => a === 4);
   const string3Index = stringArray1.findIndex(a => a === 'string3');
   
@@ -331,7 +331,7 @@ export function FindIndex() {
 }
 
 export function FilterFunction() {
-  let numberArray1 = [1, 2, 4, 5, 6];
+  const numberArray1 = [1, 2, 4, 5, 6];
   const numbersGreaterThan2 = numberArray1.filter((a) => a > 2);
   const evenNumbers = numberArray1.filter((a) => a % 2 === 0);
   const oddNumbers = numberArray1.filter((a) => a % 2 !== 0);
@@ -421,19 +421,28 @@ export function Destructing() {
   return (
     <div id="wd-destructing">
       <h2>Destructing</h2>
+  
       <h3>Object Destructing</h3>
-      const &#123; name, age &#125; = &#123; name: "John", age: 25 &#125;<br /><br />
-      name = {name}<br />
+      const &#123; name, age &#125; = &#123; name: &quot;John&quot;, age: 25 &#125;
+      <br />
+      <br />
+      name = {name}
+      <br />
       age = {age}
+  
       <h3>Array Destructing</h3>
-      const [first, second, third] = ["one","two","three"]<br/><br/>
-      first = {first}<br />
-      second = {second}<br />
-      third = {third}<hr />
+      const [first, second, third] = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]
+      <br />
+      <br />
+      first = {first}
+      <br />
+      second = {second}
+      <br />
+      third = {third}
+      <hr />
     </div>
   );
 }
-
 export function FunctionDestructing() {
   const add = (a: number, b: number) => a + b;
   const sum = add(1, 2);
