@@ -20,8 +20,12 @@ export default function Profile() {
   }, [currentUser]);
 
   const updateProfile = async () => {
+    if (!profile._id || !currentUser?._id) {
+      alert("Cannot update profile: missing user ID");
+      return;
+    }
     try {
-      const updatedProfile = await client.updateUser(profile);
+      const updatedProfile = await client.updateUser(profile as User);
       dispatch(setCurrentUser(updatedProfile));
       alert("Profile updated successfully!");
     } catch (err) {

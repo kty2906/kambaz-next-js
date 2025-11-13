@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Assignment } from "../../../Database/types";
 
 const HTTP_SERVER = process.env.NEXT_PUBLIC_HTTP_SERVER || "http://localhost:4000";
 const ASSIGNMENTS_API = `${HTTP_SERVER}/api/assignments`;
@@ -9,7 +10,7 @@ export const deleteAssignment = async (assignmentId: string) => {
   return response.data;
 };
 
-export const updateAssignment = async (assignment: any) => {
+export const updateAssignment = async (assignment: Assignment) => {
   const { data } = await axiosWithCredentials.put(
     `${ASSIGNMENTS_API}/${assignment._id}`,
     assignment

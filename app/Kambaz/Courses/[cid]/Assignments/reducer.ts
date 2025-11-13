@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Assignment } from "../../../Database/types";
 
-const initialState = {
+interface AssignmentsState {
+  assignments: Assignment[];
+}
+
+const initialState: AssignmentsState = {
   assignments: [],
 };
 
@@ -12,17 +17,17 @@ const assignmentsSlice = createSlice({
       state.assignments = action.payload;
     },
     addAssignment: (state, { payload: assignment }) => {
-      state.assignments = [...state.assignments, assignment] as any;
+      state.assignments = [...state.assignments, assignment];
     },
     deleteAssignment: (state, { payload: assignmentId }) => {
       state.assignments = state.assignments.filter(
-        (a: any) => a._id !== assignmentId
+        (a) => a._id !== assignmentId
       );
     },
     updateAssignment: (state, { payload: assignment }) => {
-      state.assignments = state.assignments.map((a: any) =>
+      state.assignments = state.assignments.map((a) =>
         a._id === assignment._id ? assignment : a
-      ) as any;
+      );
     },
   },
 });

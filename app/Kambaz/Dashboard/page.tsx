@@ -4,12 +4,14 @@ import { useSelector } from "react-redux";
 import * as userClient from "../Account/client";
 import * as courseClient from "../Courses/client";
 import * as enrollmentsClient from "../Enrollments/client";
+import { Course } from "../Database/types";
+import { KambazState } from "../store/types";
 
 export default function Dashboard() {
-  const [courses, setCourses] = useState<any[]>([]);
-  const [allCourses, setAllCourses] = useState<any[]>([]);
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [allCourses, setAllCourses] = useState<Course[]>([]);
   const [showAllCourses, setShowAllCourses] = useState(false);
-  const [course, setCourse] = useState<any>({
+  const [course, setCourse] = useState<Partial<Course>>({
     name: "New Course",
     number: "New Number",
     startDate: "2023-09-10",
@@ -17,7 +19,7 @@ export default function Dashboard() {
     description: "New Description",
   });
   
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const { currentUser } = useSelector((state: KambazState) => state.accountReducer);
 
   // Fetch enrolled courses
   const fetchCourses = async () => {
@@ -101,11 +103,15 @@ export default function Dashboard() {
 
   // Update course
   const updateCourse = async () => {
+    if (!course._id) {
+      alert("Cannot update course: missing course ID");
+      return;
+    }
     try {
-      await courseClient.updateCourse(course);
+      await courseClient.updateCourse(course as Course);
       setCourses(
         courses.map((c) => {
-          if (c._id === course._id) return course;
+          if (c._id === course._id) return course as Course;
           return c;
         })
       );

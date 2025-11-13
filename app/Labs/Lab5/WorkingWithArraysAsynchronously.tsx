@@ -4,9 +4,17 @@ import * as client from "./client";
 import { FaTrash, FaPlusCircle } from "react-icons/fa";
 import { FaPencilAlt } from "react-icons/fa";
 import { TiDelete } from "react-icons/ti";
+import axios from "axios";
+
+interface Todo {
+  id: number | string;
+  title: string;
+  completed: boolean;
+  editing?: boolean;
+}
 
 export default function WorkingWithArraysAsynchronously() {
-  const [todos, setTodos] = useState<any[]>([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const fetchTodos = async () => {
@@ -26,22 +34,26 @@ export default function WorkingWithArraysAsynchronously() {
     }
   };
 
-  const removeTodo = async (todo: any) => {
+  const removeTodo = async (todo: Todo) => {
     const updatedTodos = await client.removeTodo(todo);
     if (Array.isArray(updatedTodos)) {
       setTodos(updatedTodos);
     }
   };
 
-  const deleteTodo = async (todo: any) => {
+  const deleteTodo = async (todo: Todo) => {
     try {
       await client.deleteTodo(todo);
       const newTodos = todos.filter((t) => t.id !== todo.id);
       setTodos(newTodos);
       setErrorMessage(null);
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
-      setErrorMessage(error.response?.data?.message || "Error deleting todo");
+      if (axios.isAxiosError(error) && error.response?.data?.message) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage("Error deleting todo");
+      }
     }
   };
 
@@ -60,21 +72,25 @@ export default function WorkingWithArraysAsynchronously() {
     setTodos([...todos, newTodo]);
   };
 
-  const editTodo = (todo: any) => {
+  const editTodo = (todo: Todo) => {
     const updatedTodos = todos.map((t) =>
       t.id === todo.id ? { ...todo, editing: true } : t
     );
     setTodos(updatedTodos);
   };
 
-  const updateTodo = async (todo: any) => {
+  const updateTodo = async (todo: Todo) => {
     try {
       await client.updateTodo(todo);
       setTodos(todos.map((t) => (t.id === todo.id ? todo : t)));
       setErrorMessage(null);
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
-      setErrorMessage(error.response?.data?.message || "Error updating todo");
+      if (axios.isAxiosError(error) && error.response?.data?.message) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage("Error updating todo");
+      }
     }
   };
 

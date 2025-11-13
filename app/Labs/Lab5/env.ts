@@ -10,10 +10,12 @@ export const getEnvVar = (key: string): string => {
   
   // Client-side: try both import.meta.env (Vite) and process.env (Next.js)
   try {
-    if ((import.meta as any).env && (import.meta as any).env[key]) {
-      return (import.meta as any).env[key];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const importMeta = import.meta as any;
+    if (importMeta?.env && typeof importMeta.env[key] === 'string') {
+      return importMeta.env[key];
     }
-  } catch (e) {
+  } catch {
     // import.meta.env not available
   }
   

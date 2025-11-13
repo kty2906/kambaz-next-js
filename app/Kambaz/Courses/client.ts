@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Course, Module, Assignment } from "../Database/types";
 
 const HTTP_SERVER = process.env.NEXT_PUBLIC_HTTP_SERVER || "http://localhost:4000";
 const COURSES_API = `${HTTP_SERVER}/api/courses`;
@@ -14,7 +15,7 @@ export const deleteCourse = async (id: string) => {
   return data;
 };
 
-export const updateCourse = async (course: any) => {
+export const updateCourse = async (course: Course) => {
   const { data } = await axiosWithCredentials.put(
     `${COURSES_API}/${course._id}`,
     course
@@ -27,7 +28,7 @@ export const findModulesForCourse = async (courseId: string) => {
   return response.data;
 };
 
-export const createModuleForCourse = async (courseId: string, module: any) => {
+export const createModuleForCourse = async (courseId: string, module: Partial<Module>) => {
   const response = await axiosWithCredentials.post(
     `${COURSES_API}/${courseId}/modules`,
     module
@@ -42,7 +43,7 @@ export const findAssignmentsForCourse = async (courseId: string) => {
 
 export const createAssignmentForCourse = async (
   courseId: string,
-  assignment: any
+  assignment: Partial<Assignment>
 ) => {
   const response = await axiosWithCredentials.post(
     `${COURSES_API}/${courseId}/assignments`,

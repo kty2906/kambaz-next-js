@@ -2,8 +2,17 @@
 import React, { useEffect, useState } from "react";
 import * as client from "./client";
 
+interface Assignment {
+  id?: number;
+  title?: string;
+  description?: string;
+  due?: string;
+  completed?: boolean;
+  score?: number;
+}
+
 export default function WorkingWithObjectsAsynchronously() {
-  const [assignment, setAssignment] = useState<any>({});
+  const [assignment, setAssignment] = useState<Assignment>({});
 
   const fetchAssignment = async () => {
     const assignment = await client.fetchAssignment();
@@ -70,7 +79,11 @@ export default function WorkingWithObjectsAsynchronously() {
       </div>
       
       <button
-        onClick={() => updateTitle(assignment.title)}
+        onClick={() => {
+          if (assignment.title) {
+            updateTitle(assignment.title);
+          }
+        }}
         className="btn btn-primary mb-2"
         id="wd-async-update-title"
       >

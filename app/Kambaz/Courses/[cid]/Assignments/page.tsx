@@ -7,7 +7,7 @@ import { FaPlus, FaTrash } from "react-icons/fa";
 import { Button } from "react-bootstrap";
 import { Assignment } from "../../../Database/types";
 import { KambazState } from "../../../store/types";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import * as coursesClient from "../../client";
 import * as assignmentsClient from "./client";
 
@@ -17,10 +17,10 @@ export default function Assignments() {
   const dispatch = useDispatch();
 
   // Fetch assignments from server
-  const fetchAssignments = async () => {
-    const assignments = await coursesClient.findAssignmentsForCourse(cid as string);
-    dispatch(setAssignments(assignments));
-  };
+  const fetchAssignments = useCallback(async () => {
+    const assignmentsData = await coursesClient.findAssignmentsForCourse(cid as string);
+    dispatch(setAssignments(assignmentsData));
+  }, [cid, dispatch]);
 
   // Delete assignment
   const handleDeleteAssignment = async (assignmentId: string) => {
@@ -38,7 +38,7 @@ export default function Assignments() {
   // Fetch assignments on component mount
   useEffect(() => {
     fetchAssignments();
-  }, []);
+  }, [fetchAssignments]);
 
   return (
     <div id="wd-assignments">

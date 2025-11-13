@@ -6,18 +6,24 @@ import { addAssignment, updateAssignment } from "../reducer";
 import * as coursesClient from "../../../client";
 import * as assignmentsClient from "../client";
 import { Button } from "react-bootstrap";
+import { Assignment } from "../../../../Database/types";
+import { KambazState } from "../../../../store/types";
 
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
   const router = useRouter();
   const dispatch = useDispatch();
   
-  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const { assignments } = useSelector((state: KambazState) => state.assignmentsReducer);
   
-  const [assignment, setAssignment] = useState({
+  interface AssignmentWithExtra extends Partial<Assignment> {
+    availableUntilDate?: string;
+  }
+
+  const [assignment, setAssignment] = useState<AssignmentWithExtra>({
     _id: "",
     title: "New Assignment",
-    course: cid,
+    course: cid as string,
     description: "New Assignment Description",
     points: 100,
     dueDate: "2024-05-13",
@@ -29,12 +35,12 @@ export default function AssignmentEditor() {
 
   useEffect(() => {
     if (!isNewAssignment) {
-      const existingAssignment = assignments.find((a: any) => a._id === aid);
+      const existingAssignment = assignments.find((a) => a._id === aid);
       if (existingAssignment) {
         setAssignment(existingAssignment);
       }
     }
-  }, [aid, assignments]);
+  }, [aid, assignments, isNewAssignment]);
 
   const handleSave = async () => {
     try {
@@ -48,8 +54,12 @@ export default function AssignmentEditor() {
         alert("Assignment created successfully!");
       } else {
         // Update existing assignment
-        await assignmentsClient.updateAssignment(assignment);
-        dispatch(updateAssignment(assignment));
+        if (!assignment._id) {
+          alert("Cannot update assignment: missing assignment ID");
+          return;
+        }
+        await assignmentsClient.updateAssignment(assignment as Assignment);
+        dispatch(updateAssignment(assignment as Assignment));
         alert("Assignment updated successfully!");
       }
       router.push(`/Kambaz/Courses/${cid}/Assignments`);

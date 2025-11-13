@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import { setModules, addModule, editModule, updateModule, deleteModule } from "./reducer";
@@ -7,23 +7,31 @@ import * as coursesClient from "../../client";
 import * as modulesClient from "./client";
 import { FaTrash, FaPencil } from "react-icons/fa6";
 import { BsGripVertical } from "react-icons/bs";
+import { KambazState } from "../../../store/types";
+import { Module } from "../../../Database/types";
+import { Lesson } from "../../../Database/types";
+
+interface ModuleWithEditing extends Module {
+  editing?: boolean;
+}
 
 export default function Modules() {
   const { cid } = useParams();
   const [moduleName, setModuleName] = useState("");
-  const { modules } = useSelector((state: any) => state.modulesReducer);
+  const { modules } = useSelector((state: KambazState) => state.modulesReducer);
   const dispatch = useDispatch();
 
-  const fetchModules = async () => {
-    const modules = await coursesClient.findModulesForCourse(cid as string);
-    dispatch(setModules(modules));
-  };
+  const fetchModules = useCallback(async () => {
+    const modulesData = await coursesClient.findModulesForCourse(cid as string);
+    dispatch(setModules(modulesData));
+  }, [cid, dispatch]);
 
   const createModuleForCourse = async () => {
-    if (!cid) return;
-    const newModule = { name: moduleName, course: cid };
-    const module = await coursesClient.createModuleForCourse(cid as string, newModule);
-    dispatch(addModule(module));
+    if (!cid || Array.isArray(cid)) return;
+    const courseId = cid as string;
+    const newModule = { name: moduleName, course: courseId };
+    const createdModule = await coursesClient.createModuleForCourse(courseId, newModule);
+    dispatch(addModule(createdModule));
     setModuleName(""); // Clear input after adding
   };
 
@@ -39,7 +47,7 @@ export default function Modules() {
     }
   };
 
-  const saveModule = async (module: any) => {
+  const saveModule = async (module: ModuleWithEditing) => {
     try {
       await modulesClient.updateModule(module);
       dispatch(updateModule(module));
@@ -51,7 +59,7 @@ export default function Modules() {
 
   useEffect(() => {
     fetchModules();
-  }, []);
+  }, [fetchModules]);
 
   return (
     <div>
@@ -116,24 +124,24 @@ export default function Modules() {
 
       {/* Modules List */}
       <ul id="wd-modules" className="list-group rounded-0">
-        {modules.map((module: any) => (
-          <li key={module._id} className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
+        {modules.map((moduleItem: ModuleWithEditing) => (
+          <li key={moduleItem._id} className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
             <div className="wd-title p-3 ps-2 bg-secondary d-flex justify-content-between align-items-center">
               <div className="d-flex align-items-center flex-grow-1">
                 <BsGripVertical className="me-2" />
-                {!module.editing && (
-                  <span>{module.name}</span>
+                {!moduleItem.editing && (
+                  <span>{moduleItem.name}</span>
                 )}
-                {module.editing && (
+                {moduleItem.editing && (
                   <input
                     className="form-control w-50 d-inline-block"
-                    value={module.name}
+                    value={moduleItem.name}
                     onChange={(e) =>
-                      dispatch(updateModule({ ...module, name: e.target.value }))
+                      dispatch(updateModule({ ...moduleItem, name: e.target.value }))
                     }
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
-                        saveModule({ ...module, editing: false });
+                        saveModule({ ...moduleItem, editing: false });
                       }
                     }}
                     autoFocus
@@ -144,7 +152,7 @@ export default function Modules() {
               <div className="d-flex align-items-center">
                 <button
                   className="btn btn-sm btn-link text-danger"
-                  onClick={() => removeModule(module._id)}
+                  onClick={() => removeModule(moduleItem._id)}
                   id="wd-delete-module-btn"
                   title="Delete Module"
                 >
@@ -152,7 +160,7 @@ export default function Modules() {
                 </button>
                 <button
                   className="btn btn-sm btn-link text-primary"
-                  onClick={() => dispatch(editModule(module._id))}
+                  onClick={() => dispatch(editModule(moduleItem._id))}
                   id="wd-edit-module-btn"
                   title="Edit Module"
                 >
@@ -162,9 +170,9 @@ export default function Modules() {
               </div>
             </div>
 
-            {module.lessons && module.lessons.length > 0 && (
+            {moduleItem.lessons && moduleItem.lessons.length > 0 && (
               <ul className="wd-lessons list-group rounded-0">
-                {module.lessons.map((lesson: any) => (
+                {moduleItem.lessons.map((lesson: Lesson) => (
                   <li key={lesson._id} className="wd-lesson list-group-item p-3 ps-1">
                     <div className="d-flex justify-content-between align-items-center">
                       <div>
