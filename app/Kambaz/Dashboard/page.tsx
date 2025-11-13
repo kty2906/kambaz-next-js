@@ -1,199 +1,260 @@
-"use client"
-import Link from "next/link";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { FaFileImport } from "react-icons/fa";
-import './dashboard.css';
-import { useSelector, useDispatch } from "react-redux";
-import { addCourse, deleteCourse, updateCourse } from "./reducer";
-import { useState } from "react";
-import { 
-  Button, 
-  FormControl, 
-  Row, 
-  Col, 
-  Card, 
-  CardImg, 
-  CardBody, 
-  CardTitle 
- 
-} from "react-bootstrap";
-import { Course } from "../Database/types";
-import { KambazState } from "../store/types";
+"use client";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import * as userClient from "../Account/client";
+import * as courseClient from "../Courses/client";
+import * as enrollmentsClient from "../Enrollments/client";
 
 export default function Dashboard() {
-  const { courses } = useSelector((state: KambazState) => state.coursesReducer);
-  const dispatch = useDispatch();
-  
-  const [course, setCourse] = useState<Course>({
-    _id: "0",
+  const [courses, setCourses] = useState<any[]>([]);
+  const [allCourses, setAllCourses] = useState<any[]>([]);
+  const [showAllCourses, setShowAllCourses] = useState(false);
+  const [course, setCourse] = useState<any>({
     name: "New Course",
     number: "New Number",
     startDate: "2023-09-10",
     endDate: "2023-12-15",
-    department: "New Department",
-    credits: 4,
-    description: "New Description"
+    description: "New Description",
   });
+  
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
 
-  const courseColors: { [key: string]: string } = {
-    "1234": "#4CAF50",
-    "2001": "#4CAF50",
-    "3002": "#1976D2",
-    "4003": "#2196F3"
-  };
-
-  const handleAddCourse = () => {
-    dispatch(addCourse(course));
-    setCourse({
-      _id: "0",
-      name: "New Course",
-      number: "New Number",
-      startDate: "2023-09-10",
-      endDate: "2023-12-15",
-      department: "New Department",
-      credits: 4,
-      description: "New Description"
-    });
-  };
-
-  const handleDeleteCourse = (courseId: string, event: React.MouseEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-    if (window.confirm("Are you sure you want to delete this course?")) {
-      dispatch(deleteCourse(courseId));
+  // Fetch enrolled courses
+  const fetchCourses = async () => {
+    try {
+      const courses = await userClient.findMyCourses();
+      setCourses(courses);
+    } catch (error) {
+      console.error(error);
     }
   };
 
-  const handleEditCourse = (courseToEdit: Course, event: React.MouseEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-    setCourse(courseToEdit);
+  // Fetch all courses
+  const fetchAllCourses = async () => {
+    try {
+      const allCourses = await courseClient.fetchAllCourses();
+      setAllCourses(allCourses);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleUpdateCourse = () => {
-    dispatch(updateCourse(course));
+  // Enroll in course
+  const enrollInCourse = async (courseId: string) => {
+    try {
+      await enrollmentsClient.enrollInCourse("current", courseId);
+      // Refresh enrolled courses
+      await fetchCourses();
+      alert("Successfully enrolled!");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to enroll in course");
+    }
   };
+
+  // Unenroll from course
+  const unenrollFromCourse = async (courseId: string) => {
+    try {
+      await enrollmentsClient.unenrollFromCourse("current", courseId);
+      // Refresh enrolled courses
+      await fetchCourses();
+      alert("Successfully unenrolled!");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to unenroll from course");
+    }
+  };
+
+  // Check if enrolled
+  const isEnrolled = (courseId: string) => {
+    return courses.some((c) => c._id === courseId);
+  };
+
+  // Add new course
+  const addNewCourse = async () => {
+    try {
+      const newCourse = await userClient.createCourse(course);
+      setCourses([...courses, newCourse]);
+      setCourse({
+        name: "New Course",
+        number: "New Number",
+        startDate: "2023-09-10",
+        endDate: "2023-12-15",
+        description: "New Description",
+      });
+    } catch (error) {
+      console.error(error);
+      alert("Failed to create course");
+    }
+  };
+
+  // Delete course
+  const deleteCourse = async (courseId: string) => {
+    try {
+      await courseClient.deleteCourse(courseId);
+      setCourses(courses.filter((c) => c._id !== courseId));
+    } catch (error) {
+      console.error(error);
+      alert("Failed to delete course");
+    }
+  };
+
+  // Update course
+  const updateCourse = async () => {
+    try {
+      await courseClient.updateCourse(course);
+      setCourses(
+        courses.map((c) => {
+          if (c._id === course._id) return course;
+          return c;
+        })
+      );
+      alert("Course updated successfully!");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to update course");
+    }
+  };
+
+  useEffect(() => {
+    if (currentUser) {
+      fetchCourses();
+      fetchAllCourses();
+    }
+  }, [currentUser]);
+
+  // Toggle between enrolled and all courses
+  const displayCourses = showAllCourses ? allCourses : courses;
 
   return (
-    <div id="wd-dashboard" style={{ marginLeft: '120px' }}>
-      <div className="container-fluid p-4">
-        <h1 id="wd-dashboard-title" className="mb-0">Dashboard</h1>
-        <hr />
-        
-        {/* NEW COURSE FORM */}
-        <div className="mb-4">
-          <h5>
-            New Course
-            <Button 
-              variant="primary" 
-              className="float-end"
-              onClick={handleAddCourse}
-              id="wd-add-new-course-click"
-            >
-              Add
-            </Button>
-            <Button 
-              variant="warning" 
-              className="float-end me-2"
-              onClick={handleUpdateCourse}
-              id="wd-update-course-click"
-            >
-              Update
-            </Button>
-          </h5>
-          <br /><br />
-          <FormControl 
-            value={course.name}
-            className="mb-2"
-            onChange={(e) => setCourse({ ...course, name: e.target.value })}
-            placeholder="Course Name"
-          />
-          <FormControl 
-            value={course.number}
-            className="mb-2"
-            onChange={(e) => setCourse({ ...course, number: e.target.value })}
-            placeholder="Course Number"
-          />
-          <FormControl 
-            as="textarea"
-            value={course.description}
-            rows={3}
-            onChange={(e) => setCourse({ ...course, description: e.target.value })}
-            placeholder="Course Description"
-          />
-        </div>
-        <hr />
-        
-        <h2 id="wd-dashboard-published" className="fs-5 mb-4">
-          Published Courses ({courses.length})
-        </h2>
+    <div id="wd-dashboard">
+      <h1 id="wd-dashboard-title">Dashboard</h1>
+      <hr />
+      
+      {/* Course Form */}
+      <h5>New Course</h5>
+      <div className="mb-3">
+        <input
+          value={course.name}
+          className="form-control mb-2"
+          onChange={(e) => setCourse({ ...course, name: e.target.value })}
+          placeholder="Course Name"
+        />
+        <input
+          value={course.number}
+          className="form-control mb-2"
+          onChange={(e) => setCourse({ ...course, number: e.target.value })}
+          placeholder="Course Number"
+        />
+        <input
+          value={course.startDate}
+          className="form-control mb-2"
+          type="date"
+          onChange={(e) => setCourse({ ...course, startDate: e.target.value })}
+        />
+        <input
+          value={course.endDate}
+          className="form-control mb-2"
+          type="date"
+          onChange={(e) => setCourse({ ...course, endDate: e.target.value })}
+        />
+        <textarea
+          value={course.description}
+          className="form-control mb-2"
+          onChange={(e) => setCourse({ ...course, description: e.target.value })}
+          placeholder="Course Description"
+          rows={3}
+        />
+        <button className="btn btn-primary me-2" onClick={addNewCourse}>
+          Add Course
+        </button>
+        <button className="btn btn-warning" onClick={updateCourse}>
+          Update Course
+        </button>
+      </div>
+      
+      <hr />
 
-        <div id="wd-dashboard-courses" className="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
-          {courses.map((c: Course) => (
-            <div key={c._id} className="col">
-              <div className="card wd-dashboard-course h-100">
-                <Link 
-                  href={`/Kambaz/Courses/${c._id}/Home`} 
-                  className="text-decoration-none"
+      {/* Toggle Button */}
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h2>
+          {showAllCourses ? "All Courses" : "Enrolled Courses"} ({displayCourses.length})
+        </h2>
+        <button
+          className="btn btn-primary btn-lg"
+          onClick={() => setShowAllCourses(!showAllCourses)}
+        >
+          {showAllCourses ? "Show My Courses" : "Show All Courses"}
+        </button>
+      </div>
+      
+      <hr />
+      
+      {/* Courses Grid */}
+      <div className="row row-cols-1 row-cols-md-5 g-4">
+        {displayCourses.map((c) => (
+          <div key={c._id} className="col" style={{ width: "300px" }}>
+            <div className="card rounded-3 overflow-hidden">
+              <img
+                src="/images/reactjs.jpg"
+                className="card-img-top"
+                style={{ height: "160px", objectFit: "cover" }}
+              />
+              <div className="card-body">
+                <a
+                  href={`/Kambaz/Courses/${c._id}/Home`}
+                  className="text-decoration-none text-dark"
                 >
-                  <div 
-                    className="card-img-top position-relative" 
-                    style={{ 
-                      backgroundColor: courseColors[c._id] || "#4CAF50",
-                      height: '150px',
-                      overflow: 'hidden'
-                    }}
+                  <h5 className="card-title">{c.name}</h5>
+                </a>
+                <p className="card-text">{c.number}</p>
+                <p className="card-text text-muted small">
+                  {c.startDate} to {c.endDate}
+                </p>
+                
+                {/* Action Buttons */}
+                <div className="d-grid gap-2">
+                  <a
+                    href={`/Kambaz/Courses/${c._id}/Home`}
+                    className="btn btn-primary btn-sm"
                   >
-                    <div className="position-absolute top-0 end-0 p-2">
-                      <button 
-                        className="btn btn-link text-white p-0"
-                        style={{ fontSize: '20px' }}
-                      >
-                        <BsThreeDotsVertical />
-                      </button>
-                    </div>
-                  </div>
+                    Go to Course
+                  </a>
                   
-                  <div className="card-body">
-                    <h5 className="card-title text-danger mb-2" style={{ fontSize: '14px' }}>
-                      {c.name}
-                    </h5>
-                    <p className="card-text text-dark mb-1" style={{ fontSize: '13px' }}>
-                      {c.number}
-                    </p>
-                    <p className="card-text text-muted" style={{ fontSize: '12px' }}>
-                      {c.description}
-                    </p>
-                    
-                    {/* CRUD BUTTONS */}
-                    <div className="d-flex gap-2 mt-2">
-                      <Button 
-                        variant="warning" 
-                        size="sm"
-                        onClick={(e) => handleEditCourse(c, e)}
-                        id="wd-edit-course-click"
-                      >
-                        Edit
-                      </Button>
-                      <Button 
-                        variant="danger" 
-                        size="sm"
-                        onClick={(e) => handleDeleteCourse(c._id, e)}
-                        id="wd-delete-course-click"
+                  {isEnrolled(c._id) ? (
+                    <>
+                      <button
+                        onClick={() => deleteCourse(c._id)}
+                        className="btn btn-danger btn-sm"
                       >
                         Delete
-                      </Button>
-                    </div>
-                  </div>
-                </Link>
-                
-                <div className="card-footer bg-white border-0 d-flex justify-content-start align-items-center pb-3">
-                  <FaFileImport className="text-muted" style={{ fontSize: '16px' }} />
+                      </button>
+                      <button
+                        onClick={() => setCourse(c)}
+                        className="btn btn-warning btn-sm"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => unenrollFromCourse(c._id)}
+                        className="btn btn-secondary btn-sm"
+                      >
+                        Unenroll
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => enrollInCourse(c._id)}
+                      className="btn btn-success btn-sm"
+                    >
+                      Enroll
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </div>
   );

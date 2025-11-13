@@ -1,78 +1,66 @@
-"use client"
+"use client";
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../reducer";
-import { users } from "../../Database";
-import { FormControl, Button } from "react-bootstrap";
-import { User } from "../../Database/types";
-import './signin.css';
+import * as client from "../client";
+import Link from "next/link";
 
 export default function Signin() {
-  const [credentials, setCredentials] = useState({
-    username: "",
-    password: ""
-  });
-  const dispatch = useDispatch();
+  const [credentials, setCredentials] = useState<any>({});
+  const [error, setError] = useState("");
   const router = useRouter();
+  const dispatch = useDispatch();
 
-  const signin = () => {
-    const user = users.find(
-      (u: User) => 
-        u.username === credentials.username && 
-        u.password === credentials.password
-    );
-    
-    if (!user) {
-      alert("Invalid username or password");
-      return;
+  const signin = async () => {
+    try {
+      const user = await client.signin(credentials);
+      if (!user) return;
+      dispatch(setCurrentUser(user));
+      router.push("/Kambaz/Dashboard");
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Login failed. Please try again.");
     }
-    
-    dispatch(setCurrentUser(user));
-    router.push("/Kambaz/Dashboard");
   };
 
   return (
-    <div className="signin-container">
-      <div className="signin-card">
-        <h1 className="signin-title">Sign in</h1>
-        
-        <form className="signin-form" onSubmit={(e) => { e.preventDefault(); signin(); }}>
-          <FormControl
-            value={credentials.username}
-            onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
-            className="mb-2 form-input"
-            placeholder="username"
-            id="wd-username"
-          />
-          
-          <FormControl
-            value={credentials.password}
-            onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
-            className="mb-2 form-input"
-            placeholder="password"
-            type="password"
-            id="wd-password"
-          />
-          
-          <Button 
-            onClick={signin}
-            className="w-100 mb-2 signin-button"
-            id="wd-signin-btn"
-          >
-            Sign in
-          </Button>
-          
-          <Link 
-            id="wd-signup-link" 
-            href="/Kambaz/Account/Signup"
-            className="signup-link text-center d-block"
-          >
-            Sign up
-          </Link>
-        </form>
-      </div>
+    <div className="wd-signin-screen">
+      <h1>Sign in</h1>
+      
+      {error && (
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+      )}
+
+      <input
+        id="wd-username"
+        value={credentials.username || ""}
+        onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
+        className="form-control mb-2"
+        placeholder="username"
+      />
+      
+      <input
+        id="wd-password"
+        value={credentials.password || ""}
+        onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+        className="form-control mb-2"
+        placeholder="password"
+        type="password"
+      />
+      
+      <button
+        id="wd-signin-btn"
+        onClick={signin}
+        className="btn btn-primary w-100 mb-2"
+      >
+        Sign in
+      </button>
+      
+      <Link href="/Kambaz/Account/Signup" className="wd-signup-link">
+        Sign up
+      </Link>
     </div>
   );
 }

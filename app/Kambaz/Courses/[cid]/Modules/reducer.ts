@@ -1,56 +1,37 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { modules } from "../../../Database";
-import { Module } from "../../../Database/types";
-
-// Define extended module type with editing property
-interface ModuleWithEditing extends Module {
-  editing?: boolean;
-}
 
 const initialState = {
-  modules: modules as ModuleWithEditing[],
+  modules: [],
 };
 
 const modulesSlice = createSlice({
   name: "modules",
   initialState,
   reducers: {
-    // CREATE NEW MODULE
-    addModule: (state, action) => {
-      const newModule: ModuleWithEditing = {  
-        _id: new Date().getTime().toString(),
-        name: action.payload.name,
-        course: action.payload.course,
-        description: "",
-        lessons: [],
-        editing: false,
-      };
-      state.modules = [...state.modules, newModule];
+    setModules: (state, action) => {
+      state.modules = action.payload;
     },
-    
-    // DELETE MODULE
-    deleteModule: (state, action) => {
+    addModule: (state, { payload: module }) => {
+      state.modules = [...state.modules, module] as any;
+    },
+    deleteModule: (state, { payload: moduleId }) => {
       state.modules = state.modules.filter(
-        (m: ModuleWithEditing) => m._id !== action.payload 
+        (m: any) => m._id !== moduleId
       );
     },
-    
-    // UPDATE MODULE (for editing name)
-    updateModule: (state, action) => {
-      state.modules = state.modules.map((m: ModuleWithEditing) =>  
-        m._id === action.payload._id ? action.payload : m
-      );
+    updateModule: (state, { payload: module }) => {
+      state.modules = state.modules.map((m: any) =>
+        m._id === module._id ? module : m
+      ) as any;
     },
-    
-    // SET EDITING MODE
-    editModule: (state, action) => {
-      state.modules = state.modules.map((m: ModuleWithEditing) =>
-        m._id === action.payload ? { ...m, editing: true } : { ...m, editing: false }
-      );
+    editModule: (state, { payload: moduleId }) => {
+      state.modules = state.modules.map((m: any) =>
+        m._id === moduleId ? { ...m, editing: true } : m
+      ) as any;
     },
   },
 });
 
-export const { addModule, deleteModule, updateModule, editModule } = 
+export const { addModule, deleteModule, updateModule, editModule, setModules } =
   modulesSlice.actions;
 export default modulesSlice.reducer;
