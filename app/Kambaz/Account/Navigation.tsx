@@ -9,8 +9,13 @@ export default function AccountNavigation() {
   const { currentUser } = useSelector((state: KambazState) => state.accountReducer);
   const pathname = usePathname();
   
-  // Show different links based on login status
+  // Show different links based on login status and role
   const links = currentUser ? ["Profile"] : ["Signin", "Signup"];
+  
+  // Add Users link for ADMIN
+  if (currentUser && currentUser.role === "ADMIN") {
+    links.push("Users");
+  }
 
   return (
     <div id="wd-account-navigation" className="account-nav">

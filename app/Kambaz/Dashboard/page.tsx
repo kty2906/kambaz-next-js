@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import Link from "next/link";
 import * as userClient from "../Account/client";
 import * as courseClient from "../Courses/client";
 import * as enrollmentsClient from "../Enrollments/client";
@@ -25,9 +26,11 @@ export default function Dashboard() {
   const fetchCourses = async () => {
     try {
       const courses = await userClient.findMyCourses();
-      setCourses(courses);
+      // Filter out null/undefined courses
+      setCourses(Array.isArray(courses) ? courses.filter((c) => c && c._id) : []);
     } catch (error) {
       console.error(error);
+      setCourses([]);
     }
   };
 
@@ -35,9 +38,11 @@ export default function Dashboard() {
   const fetchAllCourses = async () => {
     try {
       const allCourses = await courseClient.fetchAllCourses();
-      setAllCourses(allCourses);
+      // Filter out null/undefined courses
+      setAllCourses(Array.isArray(allCourses) ? allCourses.filter((c) => c && c._id) : []);
     } catch (error) {
       console.error(error);
+      setAllCourses([]);
     }
   };
 
@@ -69,7 +74,7 @@ export default function Dashboard() {
 
   // Check if enrolled
   const isEnrolled = (courseId: string) => {
-    return courses.some((c) => c._id === courseId);
+    return courses.some((c) => c && c._id === courseId);
   };
 
   // Add new course
@@ -95,22 +100,29 @@ export default function Dashboard() {
     try {
       await courseClient.deleteCourse(courseId);
       setCourses(courses.filter((c) => c._id !== courseId));
+      setAllCourses(allCourses.filter((c) => c._id !== courseId));
     } catch (error) {
       console.error(error);
       alert("Failed to delete course");
     }
   };
 
-  // Update course
+  // ✅ FIXED: Update course
   const updateCourse = async () => {
     if (!course._id) {
       alert("Cannot update course: missing course ID");
       return;
     }
     try {
-      await courseClient.updateCourse(course as Course);
+      await courseClient.updateCourse(course._id, course); // ✅ Pass courseId separately
       setCourses(
         courses.map((c) => {
+          if (c._id === course._id) return course as Course;
+          return c;
+        })
+      );
+      setAllCourses(
+        allCourses.map((c) => {
           if (c._id === course._id) return course as Course;
           return c;
         })
@@ -198,69 +210,77 @@ export default function Dashboard() {
       
       {/* Courses Grid */}
       <div className="row row-cols-1 row-cols-md-5 g-4">
-        {displayCourses.map((c) => (
-          <div key={c._id} className="col" style={{ width: "300px" }}>
-            <div className="card rounded-3 overflow-hidden">
-              <img
-                src="/images/reactjs.jpg"
-                className="card-img-top"
-                style={{ height: "160px", objectFit: "cover" }}
-              />
-              <div className="card-body">
-                <a
-                  href={`/Kambaz/Courses/${c._id}/Home`}
-                  className="text-decoration-none text-dark"
-                >
-                  <h5 className="card-title">{c.name}</h5>
-                </a>
-                <p className="card-text">{c.number}</p>
-                <p className="card-text text-muted small">
-                  {c.startDate} to {c.endDate}
-                </p>
-                
-                {/* Action Buttons */}
-                <div className="d-grid gap-2">
-                  <a
+        {displayCourses
+          .filter((c) => c && c._id) // ✅ Filter out null/undefined courses
+          .map((c) => (
+            <div key={c._id} className="col" style={{ width: "300px" }}>
+              <div className="card rounded-3 overflow-hidden">
+                <img
+                  src="/images/reactjs.jpg"
+                  className="card-img-top"
+                  style={{ height: "160px", objectFit: "cover" }}
+                  alt="Course"
+                />
+                <div className="card-body">
+                  <Link
                     href={`/Kambaz/Courses/${c._id}/Home`}
-                    className="btn btn-primary btn-sm"
+                    className="text-decoration-none text-dark"
                   >
-                    Go to Course
-                  </a>
+                    <h5 className="card-title">{c.name}</h5>
+                  </Link>
+                  <p className="card-text">{c.number}</p>
+                  <p className="card-text text-muted small">
+                    {c.startDate} to {c.endDate}
+                  </p>
                   
-                  {isEnrolled(c._id) ? (
-                    <>
-                      <button
-                        onClick={() => deleteCourse(c._id)}
-                        className="btn btn-danger btn-sm"
-                      >
-                        Delete
-                      </button>
-                      <button
-                        onClick={() => setCourse(c)}
-                        className="btn btn-warning btn-sm"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => unenrollFromCourse(c._id)}
-                        className="btn btn-secondary btn-sm"
-                      >
-                        Unenroll
-                      </button>
-                    </>
-                  ) : (
-                    <button
-                      onClick={() => enrollInCourse(c._id)}
-                      className="btn btn-success btn-sm"
+                  {/* Action Buttons */}
+                  <div className="d-grid gap-2">
+                    <Link
+                      href={`/Kambaz/Courses/${c._id}/Home`}
+                      className="btn btn-primary btn-sm"
                     >
-                      Enroll
-                    </button>
-                  )}
+                      Go to Course
+                    </Link>
+                    
+                    {showAllCourses ? (
+                      // Show enroll/unenroll when viewing all courses
+                      isEnrolled(c._id) ? (
+                        <button
+                          onClick={() => unenrollFromCourse(c._id)}
+                          className="btn btn-secondary btn-sm"
+                        >
+                          Unenroll
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => enrollInCourse(c._id)}
+                          className="btn btn-success btn-sm"
+                        >
+                          Enroll
+                        </button>
+                      )
+                    ) : (
+                      // Show edit/delete when viewing my courses
+                      <>
+                        <button
+                          onClick={() => deleteCourse(c._id)}
+                          className="btn btn-danger btn-sm"
+                        >
+                          Delete
+                        </button>
+                        <button
+                          onClick={() => setCourse(c)}
+                          className="btn btn-warning btn-sm"
+                        >
+                          Edit
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

@@ -1,18 +1,19 @@
 import axios from "axios";
 
-const HTTP_SERVER = process.env.NEXT_PUBLIC_HTTP_SERVER || "http://localhost:4000";
 const axiosWithCredentials = axios.create({ withCredentials: true });
+const HTTP_SERVER = process.env.NEXT_PUBLIC_HTTP_SERVER || "http://localhost:4000";
+const USERS_API = `${HTTP_SERVER}/api/users`;
 
 export const enrollInCourse = async (userId: string, courseId: string) => {
-  const response = await axiosWithCredentials.post(
-    `${HTTP_SERVER}/api/users/${userId}/courses/${courseId}`
+  const { data } = await axiosWithCredentials.post(
+    `${USERS_API}/${userId}/courses/${courseId}`
   );
-  return response.data;
+  return data;
 };
 
 export const unenrollFromCourse = async (userId: string, courseId: string) => {
-  const response = await axiosWithCredentials.delete(
-    `${HTTP_SERVER}/api/users/${userId}/courses/${courseId}`
+  const { data } = await axiosWithCredentials.delete(
+    `${USERS_API}/${userId}/courses/${courseId}`
   );
-  return response.data;
+  return data;
 };

@@ -4,6 +4,7 @@ import { Course } from "../Database/types";
 
 export const HTTP_SERVER = process.env.NEXT_PUBLIC_HTTP_SERVER || "http://localhost:4000";
 export const USERS_API = `${HTTP_SERVER}/api/users`;
+export const COURSES_API = `${HTTP_SERVER}/api/courses`;
 
 const axiosWithCredentials = axios.create({ withCredentials: true });
 
@@ -21,7 +22,7 @@ export const signin = async (credentials: Credentials) => {
 };
 
 export const profile = async () => {
-  const response = await axiosWithCredentials.post(`${USERS_API}/profile`);
+  const response = await axiosWithCredentials.get(`${USERS_API}/profile`);
   return response.data;
 };
 
@@ -43,15 +44,58 @@ export const updateUser = async (user: User) => {
   return response.data;
 };
 
+
 export const findMyCourses = async () => {
   const { data } = await axiosWithCredentials.get(`${USERS_API}/current/courses`);
   return data;
 };
 
 export const createCourse = async (course: Partial<Course>) => {
-  const { data } = await axiosWithCredentials.post(
-    `${USERS_API}/current/courses`,
-    course
-  );
+  const { data } = await axiosWithCredentials.post(COURSES_API, course);
   return data;
+};
+
+export const fetchAllCourses = async () => {
+  const { data } = await axiosWithCredentials.get(COURSES_API);
+  return data;
+};
+
+export const deleteCourse = async (courseId: string) => {
+  const { data } = await axiosWithCredentials.delete(`${COURSES_API}/${courseId}`);
+  return data;
+};
+
+export const updateCourse = async (courseId: string, course: any) => {
+  const { data } = await axiosWithCredentials.put(`${COURSES_API}/${courseId}`, course);
+  return data;
+};
+// Add these functions
+export const findAllUsers = async () => {
+  const response = await axiosWithCredentials.get(USERS_API);
+  return response.data;
+};
+
+export const findUsersByRole = async (role: string) => {
+  const response = await axiosWithCredentials.get(`${USERS_API}?role=${role}`);
+  return response.data;
+};
+
+export const findUsersByPartialName = async (name: string) => {
+  const response = await axiosWithCredentials.get(`${USERS_API}?name=${name}`);
+  return response.data;
+};
+
+export const findUserById = async (id: string) => {
+  const response = await axiosWithCredentials.get(`${USERS_API}/${id}`);
+  return response.data;
+};
+
+export const deleteUser = async (userId: string) => {
+  const response = await axiosWithCredentials.delete(`${USERS_API}/${userId}`);
+  return response.data;
+};
+
+export const createUser = async (user: any) => {
+  const response = await axiosWithCredentials.post(USERS_API, user);
+  return response.data;
 };

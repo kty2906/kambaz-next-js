@@ -19,16 +19,31 @@ export default function Signin() {
   const dispatch = useDispatch();
 
   const signin = async () => {
+    if (!credentials.username || !credentials.password) {
+      setError("Please enter both username and password");
+      return;
+    }
     try {
+      setError("");
       const user = await client.signin(credentials);
-      if (!user) return;
+      if (!user) {
+        setError("Invalid credentials. Please try again.");
+        return;
+      }
       dispatch(setCurrentUser(user));
       router.push("/Kambaz/Dashboard");
     } catch (err) {
-      if (axios.isAxiosError(err) && err.response?.data?.message) {
-        setError(err.response.data.message);
+      console.error("Signin error:", err);
+      if (axios.isAxiosError(err)) {
+        if (err.response?.data?.message) {
+          setError(err.response.data.message);
+        } else if (err.code === "ERR_NETWORK" || err.message.includes("Network Error")) {
+          setError("Cannot connect to server. Please check if the backend is running and environment variables are configured.");
+        } else {
+          setError(`Login failed: ${err.message}`);
+        }
       } else {
-        setError("Login failed. Please try again.");
+        setError("Login failed. Please check your connection and try again.");
       }
     }
   };

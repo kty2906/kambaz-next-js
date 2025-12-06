@@ -19,6 +19,7 @@ export default function WorkingWithArraysAsynchronously() {
 
   const fetchTodos = async () => {
     try {
+      setErrorMessage(null);
       const data = await client.fetchTodos();
       console.log("Fetched todos:", data); // Debug log
       // Make sure data is an array
@@ -27,9 +28,12 @@ export default function WorkingWithArraysAsynchronously() {
       } else {
         console.error("Todos is not an array:", data);
         setTodos([]);
+        setErrorMessage("Server returned invalid data format");
       }
     } catch (error) {
       console.error("Error fetching todos:", error);
+      const errorMsg = error instanceof Error ? error.message : "Failed to fetch todos. Check if backend server is running.";
+      setErrorMessage(errorMsg);
       setTodos([]);
     }
   };

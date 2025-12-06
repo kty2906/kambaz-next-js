@@ -45,20 +45,25 @@ export default function AssignmentEditor() {
   const handleSave = async () => {
     try {
       if (isNewAssignment) {
-        // Create new assignment
-        const newAssignment = await coursesClient.createAssignmentForCourse(
+       
+        const newAssignment = await coursesClient.createAssignment(
           cid as string,
           assignment
         );
         dispatch(addAssignment(newAssignment));
         alert("Assignment created successfully!");
       } else {
-        // Update existing assignment
+       
         if (!assignment._id) {
           alert("Cannot update assignment: missing assignment ID");
           return;
         }
-        await assignmentsClient.updateAssignment(assignment as Assignment);
+       
+        await coursesClient.updateAssignment(
+          cid as string,
+          assignment._id,
+          assignment
+        );
         dispatch(updateAssignment(assignment as Assignment));
         alert("Assignment updated successfully!");
       }

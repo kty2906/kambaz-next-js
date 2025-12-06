@@ -16,17 +16,18 @@ export default function Assignments() {
   const { assignments } = useSelector((state: KambazState) => state.assignmentsReducer);
   const dispatch = useDispatch();
 
-  // Fetch assignments from server
+ 
   const fetchAssignments = useCallback(async () => {
     const assignmentsData = await coursesClient.findAssignmentsForCourse(cid as string);
     dispatch(setAssignments(assignmentsData));
   }, [cid, dispatch]);
 
-  // Delete assignment
+ 
   const handleDeleteAssignment = async (assignmentId: string) => {
     if (window.confirm("Are you sure you want to delete this assignment?")) {
       try {
-        await assignmentsClient.deleteAssignment(assignmentId);
+       
+        await assignmentsClient.deleteAssignment(cid as string, assignmentId);
         dispatch(deleteAssignment(assignmentId));
       } catch (error) {
         console.error("Failed to delete assignment:", error);
@@ -35,7 +36,7 @@ export default function Assignments() {
     }
   };
 
-  // Fetch assignments on component mount
+ 
   useEffect(() => {
     fetchAssignments();
   }, [fetchAssignments]);
