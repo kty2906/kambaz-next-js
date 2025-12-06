@@ -1,23 +1,23 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
 import PeopleTable from "./Table";
-import * as client from "../../../Account/client";
 import * as coursesClient from "../../client";
+import { User } from "../../../Database/types";
 
 export default function People() {
   const { cid } = useParams();
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
 
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     if (!cid || Array.isArray(cid)) return;
     const enrolledUsers = await coursesClient.findUsersForCourse(cid);
     setUsers(enrolledUsers);
-  };
+  }, [cid]);
 
   useEffect(() => {
     fetchUsers();
-  }, [cid]);
+  }, [fetchUsers]);
 
   return (
     <div id="wd-people">

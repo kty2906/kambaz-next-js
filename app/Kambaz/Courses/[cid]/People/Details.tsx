@@ -5,6 +5,7 @@ import { FaPencil } from "react-icons/fa6";
 import { IoCloseSharp } from "react-icons/io5";
 import * as client from "../../../Account/client";
 import { Form } from "react-bootstrap";
+import { User } from "../../../Database/types";
 
 export default function PeopleDetails({ 
   uid, 
@@ -13,7 +14,7 @@ export default function PeopleDetails({
   uid: string | null; 
   onClose: () => void; 
 }) {
-  const [user, setUser] = useState<any>({});
+  const [user, setUser] = useState<Partial<User>>({});
   const [name, setName] = useState("");
   const [editing, setEditing] = useState(false);
 
@@ -32,9 +33,10 @@ export default function PeopleDetails({
   };
 
   const saveUser = async () => {
+    if (!user._id) return;
     const [firstName, lastName] = name.split(" ");
     const updatedUser = { ...user, firstName, lastName };
-    await client.updateUser(updatedUser);
+    await client.updateUser(updatedUser as User);
     setUser(updatedUser);
     setEditing(false);
   };

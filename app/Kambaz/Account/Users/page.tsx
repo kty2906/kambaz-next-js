@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import PeopleTable from "../../Courses/[cid]/People/Table";
 import * as client from "../client";
 import { FaPlus } from "react-icons/fa6";
+import { User } from "../../Database/types";
 
 export default function Users() {
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [role, setRole] = useState("");
   const [name, setName] = useState("");
 

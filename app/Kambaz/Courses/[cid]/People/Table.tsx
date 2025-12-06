@@ -2,12 +2,13 @@
 import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import PeopleDetails from "./Details";
+import { User } from "../../../Database/types";
 
 export default function PeopleTable({ 
   users = [], 
   fetchUsers 
 }: { 
-  users?: any[]; 
+  users?: User[]; 
   fetchUsers: () => void; 
 }) {
   const [showDetails, setShowDetails] = useState(false);
@@ -38,7 +39,7 @@ export default function PeopleTable({
           </tr>
         </thead>
         <tbody>
-          {users.map((user: any) => (
+          {users.map((user: User) => (
             <tr key={user._id}>
               <td className="wd-full-name text-nowrap">
                 <span

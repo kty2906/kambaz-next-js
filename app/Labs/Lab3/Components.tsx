@@ -1,8 +1,7 @@
 
 import { ReactNode } from "react";
-import { ListGroup, ListGroupItem } from "react-bootstrap";
 import Link from "next/link";
-import MathUtils, { add, subtract, multiply as multiplyFn, divide } from "./Math";
+import MathUtils, { add, subtract, divide } from "./Math";
 import * as Matematica from "./Math";
 import "./Classes.css";
 

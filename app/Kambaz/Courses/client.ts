@@ -1,4 +1,7 @@
 import axios from "axios";
+import { Course } from "../Database/types";
+import { Module } from "../Database/types";
+import { Assignment } from "../Database/types";
 
 const axiosWithCredentials = axios.create({ withCredentials: true });
 
@@ -12,12 +15,12 @@ export const fetchAllCourses = async () => {
   return data;
 };
 
-export const createCourse = async (course: any) => {
+export const createCourse = async (course: Partial<Course>) => {
   const { data } = await axiosWithCredentials.post(COURSES_API, course);
   return data;
 };
 
-export const updateCourse = async (courseId: string, course: any) => {
+export const updateCourse = async (courseId: string, course: Partial<Course>) => {
   const { data } = await axiosWithCredentials.put(`${COURSES_API}/${courseId}`, course);
   return data;
 };
@@ -59,7 +62,7 @@ export const findModulesForCourse = async (courseId: string) => {
   return data;
 };
 
-export const createModuleForCourse = async (courseId: string, module: any) => {
+export const createModuleForCourse = async (courseId: string, module: Partial<Module>) => {
   const { data } = await axiosWithCredentials.post(`${COURSES_API}/${courseId}/modules`, module);
   return data;
 };
@@ -69,7 +72,7 @@ export const deleteModule = async (courseId: string, moduleId: string) => {
   return data;
 };
 
-export const updateModule = async (courseId: string, moduleId: string, module: any) => {
+export const updateModule = async (courseId: string, moduleId: string, module: Partial<Module>) => {
   const { data } = await axiosWithCredentials.put(`${COURSES_API}/${courseId}/modules/${moduleId}`, module);
   return data;
 };
@@ -80,12 +83,12 @@ export const findAssignmentsForCourse = async (courseId: string) => {
   return data;
 };
 
-export const createAssignment = async (courseId: string, assignment: any) => {
+export const createAssignment = async (courseId: string, assignment: Partial<Assignment>) => {
   const { data } = await axiosWithCredentials.post(`${COURSES_API}/${courseId}/assignments`, assignment);
   return data;
 };
 
-export const updateAssignment = async (courseId: string, assignmentId: string, assignment: any) => {
+export const updateAssignment = async (courseId: string, assignmentId: string, assignment: Partial<Assignment>) => {
   const { data } = await axiosWithCredentials.put(`${COURSES_API}/${courseId}/assignments/${assignmentId}`, assignment);
   return data;
 };

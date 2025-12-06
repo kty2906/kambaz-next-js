@@ -65,7 +65,7 @@ export const deleteCourse = async (courseId: string) => {
   return data;
 };
 
-export const updateCourse = async (courseId: string, course: any) => {
+export const updateCourse = async (courseId: string, course: Partial<Course>) => {
   const { data } = await axiosWithCredentials.put(`${COURSES_API}/${courseId}`, course);
   return data;
 };
@@ -95,7 +95,7 @@ export const deleteUser = async (userId: string) => {
   return response.data;
 };
 
-export const createUser = async (user: any) => {
+export const createUser = async (user: Partial<User>) => {
   const response = await axiosWithCredentials.post(USERS_API, user);
   return response.data;
 };

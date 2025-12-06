@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Link from "next/link";
+import Image from "next/image";
 import * as userClient from "../Account/client";
 import * as courseClient from "../Courses/client";
 import * as enrollmentsClient from "../Enrollments/client";
@@ -26,7 +27,7 @@ export default function Dashboard() {
   const fetchCourses = async () => {
     try {
       const courses = await userClient.findMyCourses();
-      // Filter out null/undefined courses
+      
       setCourses(Array.isArray(courses) ? courses.filter((c) => c && c._id) : []);
     } catch (error) {
       console.error(error);
@@ -107,7 +108,7 @@ export default function Dashboard() {
     }
   };
 
-  // ✅ FIXED: Update course
+ 
   const updateCourse = async () => {
     if (!course._id) {
       alert("Cannot update course: missing course ID");
@@ -215,9 +216,11 @@ export default function Dashboard() {
           .map((c) => (
             <div key={c._id} className="col" style={{ width: "300px" }}>
               <div className="card rounded-3 overflow-hidden">
-                <img
+                <Image
                   src="/images/reactjs.jpg"
                   className="card-img-top"
+                  width={300}
+                  height={160}
                   style={{ height: "160px", objectFit: "cover" }}
                   alt="Course"
                 />

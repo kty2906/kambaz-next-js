@@ -75,7 +75,7 @@ export default function Lab2() {
       <div className="float-box red-bg"></div>
       <div className="float-box green-bg"></div>
       <div className="float-box blue-bg"></div>
-      <img src="https://via.placeholder.com/100" className="float-right" />
+      <img src="https://via.placeholder.com/100" className="float-right" alt="" />
 
       {/* ================= GRID ================= */}
       <h2>CSS Grid</h2>
