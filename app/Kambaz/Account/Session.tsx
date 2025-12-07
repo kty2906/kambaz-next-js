@@ -12,11 +12,18 @@ export default function Session({ children }: { children: ReactNode }) {
   const fetchProfile = useCallback(async () => {
     try {
       const currentUser = await client.profile();
-      dispatch(setCurrentUser(currentUser));
+      if (currentUser) {
+        dispatch(setCurrentUser(currentUser));
+      } else {
+        dispatch(setCurrentUser(null));
+      }
     } catch (err) {
-      console.error(err);
+      // If profile fails (401), user is not logged in
+      console.error("Profile fetch failed:", err);
+      dispatch(setCurrentUser(null));
+    } finally {
+      setPending(false);
     }
-    setPending(false);
   }, [dispatch]);
 
   useEffect(() => {
