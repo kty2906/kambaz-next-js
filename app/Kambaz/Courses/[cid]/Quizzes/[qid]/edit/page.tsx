@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
   findQuizById,
@@ -20,63 +20,30 @@ export default function QuizEditor() {
   const [editingQuestion, setEditingQuestion] = useState<Question | null>(null);
   const [isAddingQuestion, setIsAddingQuestion] = useState(false);
 
+  // CRITICAL: Add this useEffect!
+  useEffect(() => {
+    fetchQuiz();
+  }, [qid]);
+
   const fetchQuiz = async () => {
     try {
       console.log("[QuizEditor] Fetching quiz:", qid);
-      // Add a small delay to ensure quiz is saved in database
-      await new Promise(resolve => setTimeout(resolve, 500));
       const data = await findQuizById(qid as string);
-      console.log("[QuizEditor] Quiz fetched:", data?._id, "Questions:", data?.questions?.length || 0);
-      if (data) {
-        setQuiz(data);
-      } else {
-        console.error("[QuizEditor] Quiz data is null or undefined");
-        // Retry once after 1 second
-        setTimeout(async () => {
-          try {
-            const retryData = await findQuizById(qid as string);
-            if (retryData) {
-              setQuiz(retryData);
-              setLoading(false);
-            }
-          } catch (retryError) {
-            console.error("[QuizEditor] Retry failed:", retryError);
-            setLoading(false);
-          }
-        }, 1000);
-        return;
-      }
-    } catch (error: unknown) {
+      console.log("[QuizEditor] Quiz fetched:", data?._id);
+      setQuiz(data);
+    } catch (error) {
       console.error("[QuizEditor] Error fetching quiz:", error);
-      const errorMessage = error instanceof Error ? error.message : "Failed to load quiz";
-      // Don't show alert immediately, retry once
-      setTimeout(async () => {
-        try {
-          const retryData = await findQuizById(qid as string);
-          if (retryData) {
-            setQuiz(retryData);
-            setLoading(false);
-          } else {
-            alert(`Error loading quiz: ${errorMessage}`);
-            setLoading(false);
-          }
-        } catch (retryError) {
-          console.error("[QuizEditor] Retry failed:", retryError);
-          alert(`Error loading quiz: ${errorMessage}`);
-          setLoading(false);
-        }
-      }, 1000);
-      return;
+      alert("Error loading quiz. Redirecting to quiz list.");
+      router.push(`/Kambaz/Courses/${cid}/Quizzes`);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleUpdateQuiz = async (updates: Partial<Quiz>) => {
     try {
       const updated = await updateQuiz(qid as string, updates);
       setQuiz(updated);
-      // Navigate to Quiz Details screen after saving
-      router.push(`/Kambaz/Courses/${cid}/Quizzes/${qid}`);
     } catch (error) {
       console.error("Error updating quiz:", error);
     }
@@ -98,6 +65,7 @@ export default function QuizEditor() {
       setIsAddingQuestion(false);
     } catch (error) {
       console.error("Error adding question:", error);
+      alert("Error adding question. Please try again.");
     }
   };
 
@@ -123,11 +91,26 @@ export default function QuizEditor() {
   };
 
   if (loading) {
-    return <div className="p-4">Loading...</div>;
+    return (
+      <div className="p-4 text-center">
+        <p>Loading quiz...</p>
+        <p className="text-sm text-gray-500 mt-2">Quiz ID: {qid as string}</p>
+      </div>
+    );
   }
 
   if (!quiz) {
-    return <div className="p-4">Quiz not found</div>;
+    return (
+      <div className="p-4">
+        <p>Quiz not found</p>
+        <button
+          onClick={() => router.push(`/Kambaz/Courses/${cid}/Quizzes`)}
+          className="mt-4 bg-blue-600 text-white px-4 py-2 rounded"
+        >
+          Back to Quizzes
+        </button>
+      </div>
+    );
   }
 
   return (
@@ -137,19 +120,19 @@ export default function QuizEditor() {
         <div className="space-x-2">
           <button
             onClick={handleCancel}
-            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+            className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
           >
             Cancel
           </button>
           <button
             onClick={() => handleUpdateQuiz(quiz)}
-            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
           >
             Save
           </button>
           <button
             onClick={handleSaveAndPublish}
-            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
           >
             Save & Publish
           </button>
@@ -235,31 +218,13 @@ export default function QuizEditor() {
             </div>
 
             <div>
-              <label className="flex items-center space-x-2 mb-2">
-                <input
-                  type="checkbox"
-                  checked={quiz.timeLimit !== undefined && quiz.timeLimit > 0}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setQuiz({ ...quiz, timeLimit: quiz.timeLimit || 20 });
-                    } else {
-                      setQuiz({ ...quiz, timeLimit: 0 });
-                    }
-                  }}
-                  className="rounded"
-                />
-                <span className="text-sm font-semibold">Time Limit</span>
-              </label>
-              {quiz.timeLimit !== undefined && quiz.timeLimit > 0 && (
-                <input
-                  type="number"
-                  value={quiz.timeLimit || 20}
-                  onChange={(e) => setQuiz({ ...quiz, timeLimit: parseInt(e.target.value) || 20 })}
-                  className="w-full border rounded px-3 py-2"
-                  min="1"
-                  placeholder="Minutes"
-                />
-              )}
+              <label className="block text-sm font-semibold mb-2">Time Limit (minutes)</label>
+              <input
+                type="number"
+                value={quiz.timeLimit || 20}
+                onChange={(e) => setQuiz({ ...quiz, timeLimit: parseInt(e.target.value) || 20 })}
+                className="w-full border rounded px-3 py-2"
+              />
             </div>
 
             <div>
