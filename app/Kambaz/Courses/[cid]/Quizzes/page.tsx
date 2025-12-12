@@ -16,10 +16,6 @@ export default function QuizzesList() {
   const [loading, setLoading] = useState(true);
   const { currentUser } = useSelector((state: KambazState) => state.accountReducer);
 
-  useEffect(() => {
-    fetchQuizzes();
-  }, [cid]);
-
   const fetchQuizzes = async () => {
     if (!cid || Array.isArray(cid)) return;
     try {
@@ -41,6 +37,11 @@ export default function QuizzesList() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchQuizzes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cid]);
 
   const handleAddQuiz = async () => {
     if (!cid || Array.isArray(cid)) return;

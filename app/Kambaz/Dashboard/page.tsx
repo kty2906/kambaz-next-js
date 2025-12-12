@@ -24,7 +24,6 @@ export default function Dashboard() {
   
   const { currentUser } = useSelector((state: KambazState) => state.accountReducer);
   const isFaculty = currentUser?.role === "FACULTY" || currentUser?.role === "ADMIN";
-  const isStudent = currentUser?.role === "STUDENT";
 
  
   const fetchCourses = async () => {
@@ -33,7 +32,7 @@ export default function Dashboard() {
       const courses = await userClient.findMyCourses();
       console.log("[Dashboard] Received courses:", courses);
       setCourses(Array.isArray(courses) ? courses.filter((c) => c && c._id) : []);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("[Dashboard] Error fetching enrolled courses:", error);
       if (axios.isAxiosError(error)) {
         console.error("[Dashboard] Error details:", {

@@ -16,7 +16,7 @@ export const fetchAllCourses = async () => {
     const { data } = await axiosWithCredentials.get(COURSES_API);
     console.log("[fetchAllCourses] Success, received", data?.length || 0, "courses");
     return data;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[fetchAllCourses] Error:", error);
     if (axios.isAxiosError(error)) {
       console.error("[fetchAllCourses] Status:", error.response?.status);
