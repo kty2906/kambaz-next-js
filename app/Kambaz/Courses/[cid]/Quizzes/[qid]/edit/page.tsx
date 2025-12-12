@@ -20,10 +20,6 @@ export default function QuizEditor() {
   const [editingQuestion, setEditingQuestion] = useState<Question | null>(null);
   const [isAddingQuestion, setIsAddingQuestion] = useState(false);
 
-  useEffect(() => {
-    fetchQuiz();
-  }, [qid]);
-
   const fetchQuiz = async () => {
     try {
       const data = await findQuizById(qid as string);
@@ -365,7 +361,7 @@ export default function QuizEditor() {
 
           {quiz.questions?.length === 0 && !isAddingQuestion && (
             <div className="text-center text-gray-500 py-8">
-              No questions yet. Click "+ New Question" to add one.
+              No questions yet. Click &quot;+ New Question&quot; to add one.
             </div>
           )}
 
@@ -488,7 +484,7 @@ interface QuestionEditorProps {
   onChange?: (data: Question) => void;
 }
 
-function QuestionEditor({ question, onSave, onCancel, onChange }: QuestionEditorProps) {
+function QuestionEditor({ question, onSave, onCancel }: QuestionEditorProps) {
   const [formData, setFormData] = useState<Partial<Question>>(
     question || {
       type: "MULTIPLE_CHOICE",

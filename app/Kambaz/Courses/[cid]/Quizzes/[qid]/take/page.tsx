@@ -19,7 +19,6 @@ export default function TakeQuiz() {
   const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
   const [startTime] = useState<Date>(new Date());
   const { currentUser } = useSelector((state: KambazState) => state.accountReducer);
-  const [attempts, setAttempts] = useState<any[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date>(new Date());
 
@@ -84,9 +83,8 @@ export default function TakeQuiz() {
       }
 
       setQuiz(quizData);
-      setAttempts(attemptsData);
 
-     
+      // Check if user can take the quiz
       if (!quizData.multipleAttempts && attemptsData.length > 0) {
         alert("You have already taken this quiz. Multiple attempts are not allowed.");
         router.push(`/Kambaz/Courses/${cid}/Quizzes/${qid}/results`);

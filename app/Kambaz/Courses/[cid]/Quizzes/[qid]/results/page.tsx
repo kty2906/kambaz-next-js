@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { findQuizById, getUserAttempts, getLatestAttempt } from "../../client";
-import { Quiz, Question, QuizAttempt } from "../../../../../Database/types";
+import { Quiz, QuizAttempt } from "../../../../../Database/types";
 import { KambazState } from "../../../../../store/types";
 import styles from "./page.module.css";
 
@@ -89,8 +89,8 @@ export default function QuizResults() {
 
   const timeSpent = calculateTimeSpent(attempt.startedAt, attempt.submittedAt || null);
   
- 
-  const canShowCorrectAnswers = () => {
+  // Check if correct answers should be shown
+  const showCorrectAnswers = (() => {
     if (quiz.showCorrectAnswers === "NEVER") return false;
     if (quiz.showCorrectAnswers === "ALWAYS") return true;
     if (quiz.showCorrectAnswers === "IMMEDIATELY") return true;
@@ -99,10 +99,9 @@ export default function QuizResults() {
       const dueDate = new Date(quiz.dueDate);
       const now = new Date();
       return now >= dueDate; 
+    }
     return false;
-  };
-  
-  const showCorrectAnswers = canShowCorrectAnswers();
+  })();
 
   return (
     <div className={styles.container}>

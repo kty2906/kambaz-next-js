@@ -17,11 +17,7 @@ export default function QuizPreview() {
   const [startTime] = useState<Date>(new Date());
   const [lastSaved, setLastSaved] = useState<Date>(new Date());
 
-  useEffect(() => {
-    fetchQuiz();
-  }, [qid]);
-
-  
+  const fetchQuiz = async () => {
   useEffect(() => {
     const autoSaveInterval = setInterval(() => {
       setLastSaved(new Date());

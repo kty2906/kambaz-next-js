@@ -15,10 +15,6 @@ export default function QuizDetails() {
   const [loading, setLoading] = useState(true);
   const { currentUser } = useSelector((state: KambazState) => state.accountReducer);
 
-  useEffect(() => {
-    fetchQuiz();
-  }, [qid]);
-
   const fetchQuiz = async () => {
     try {
       const data = await findQuizById(qid as string);
