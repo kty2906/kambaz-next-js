@@ -43,6 +43,7 @@ export default function PeopleDetails({
 
   useEffect(() => {
     if (uid) fetchUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uid]);
 
   if (!uid) return null;

@@ -81,7 +81,7 @@ export const findMyCourses = async () => {
     const { data } = await axiosWithCredentials.get(url);
     console.log("[findMyCourses] Success, received", data?.length || 0, "courses");
     return data;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[findMyCourses] Error:", error);
     if (axios.isAxiosError(error)) {
       console.error("[findMyCourses] Status:", error.response?.status);

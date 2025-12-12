@@ -14,7 +14,7 @@ import { Quiz, Question } from "../../../../../Database/types";
 export default function QuizEditor() {
   const { cid, qid } = useParams();
   const router = useRouter();
-  const [quiz, setQuiz] = useState<any>(null);
+  const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"details" | "questions">("details");
   const [editingQuestion, setEditingQuestion] = useState<Question | null>(null);
@@ -174,7 +174,7 @@ export default function QuizEditor() {
               <label className="block text-sm font-semibold mb-2">Quiz Type</label>
               <select
                 value={quiz.quizType || "GRADED_QUIZ"}
-                onChange={(e) => setQuiz({ ...quiz, quizType: e.target.value })}
+                onChange={(e) => setQuiz({ ...quiz, quizType: e.target.value as Quiz["quizType"] })}
                 className="w-full border rounded px-3 py-2"
               >
                 <option value="GRADED_QUIZ">Graded Quiz</option>
@@ -188,7 +188,7 @@ export default function QuizEditor() {
               <label className="block text-sm font-semibold mb-2">Assignment Group</label>
               <select
                 value={quiz.assignmentGroup || "QUIZZES"}
-                onChange={(e) => setQuiz({ ...quiz, assignmentGroup: e.target.value })}
+                onChange={(e) => setQuiz({ ...quiz, assignmentGroup: e.target.value as Quiz["assignmentGroup"] })}
                 className="w-full border rounded px-3 py-2"
               >
                 <option value="QUIZZES">Quizzes</option>
@@ -369,7 +369,7 @@ export default function QuizEditor() {
             </div>
           )}
 
-          {quiz.questions?.map((question: any, index: number) => (
+          {quiz.questions?.map((question: Question, index: number) => (
             <QuestionCard
               key={question._id}
               question={question}

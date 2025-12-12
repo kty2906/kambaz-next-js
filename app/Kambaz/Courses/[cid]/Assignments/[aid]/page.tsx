@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addAssignment, updateAssignment } from "../reducer";
 import * as coursesClient from "../../../client";
-import * as assignmentsClient from "../client";
 import { Button } from "react-bootstrap";
 import { Assignment } from "../../../../Database/types";
 import { KambazState } from "../../../../store/types";
