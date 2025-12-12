@@ -19,7 +19,9 @@ export default function Modules() {
   const { cid } = useParams();
   const [moduleName, setModuleName] = useState("");
   const { modules } = useSelector((state: KambazState) => state.modulesReducer);
+  const { currentUser } = useSelector((state: KambazState) => state.accountReducer);
   const dispatch = useDispatch();
+  const isFaculty = currentUser?.role === "FACULTY" || currentUser?.role === "ADMIN";
 
   const fetchModules = useCallback(async () => {
     const modulesData = await coursesClient.findModulesForCourse(cid as string);
@@ -104,23 +106,25 @@ export default function Modules() {
         </button>
       </div>
 
-      {/* Add Module Form */}
-      <div className="mb-3">
-        <input
-          value={moduleName}
-          onChange={(e) => setModuleName(e.target.value)}
-          placeholder="New Module Name"
-          className="form-control mb-2"
-          id="wd-module-name-input"
-        />
-        <button
-          onClick={createModuleForCourse}
-          className="btn btn-success me-2"
-          id="wd-add-module-btn"
-        >
-          Add Module
-        </button>
-      </div>
+      {/* Add Module Form - Only for Faculty/Admin */}
+      {isFaculty && (
+        <div className="mb-3">
+          <input
+            value={moduleName}
+            onChange={(e) => setModuleName(e.target.value)}
+            placeholder="New Module Name"
+            className="form-control mb-2"
+            id="wd-module-name-input"
+          />
+          <button
+            onClick={createModuleForCourse}
+            className="btn btn-success me-2"
+            id="wd-add-module-btn"
+          >
+            Add Module
+          </button>
+        </div>
+      )}
 
       <hr />
 
@@ -152,25 +156,27 @@ export default function Modules() {
                     />
                   )}
                 </div>
-                <div className="d-flex align-items-center">
-                  <button
-                    className="btn btn-sm btn-link text-danger"
-                    onClick={() => removeModule(moduleItem._id)}
-                    id="wd-delete-module-btn"
-                    title="Delete Module"
-                  >
-                    <FaTrash />
-                  </button>
-                  <button
-                    className="btn btn-sm btn-link text-primary"
-                    onClick={() => dispatch(editModule(moduleItem._id))}
-                    id="wd-edit-module-btn"
-                    title="Edit Module"
-                  >
-                    <FaPencil />
-                  </button>
-                  <span className="ms-2">⋮</span>
-                </div>
+                {isFaculty && (
+                  <div className="d-flex align-items-center">
+                    <button
+                      className="btn btn-sm btn-link text-danger"
+                      onClick={() => removeModule(moduleItem._id)}
+                      id="wd-delete-module-btn"
+                      title="Delete Module"
+                    >
+                      <FaTrash />
+                    </button>
+                    <button
+                      className="btn btn-sm btn-link text-primary"
+                      onClick={() => dispatch(editModule(moduleItem._id))}
+                      id="wd-edit-module-btn"
+                      title="Edit Module"
+                    >
+                      <FaPencil />
+                    </button>
+                    <span className="ms-2">⋮</span>
+                  </div>
+                )}
               </div>
 
               {moduleItem.lessons && moduleItem.lessons.length > 0 && (

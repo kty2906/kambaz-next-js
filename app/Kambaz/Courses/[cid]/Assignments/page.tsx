@@ -14,7 +14,9 @@ import * as assignmentsClient from "./client";
 export default function Assignments() {
   const { cid } = useParams();
   const { assignments } = useSelector((state: KambazState) => state.assignmentsReducer);
+  const { currentUser } = useSelector((state: KambazState) => state.accountReducer);
   const dispatch = useDispatch();
+  const isFaculty = currentUser?.role === "FACULTY" || currentUser?.role === "ADMIN";
 
  
   const fetchAssignments = useCallback(async () => {
@@ -50,20 +52,22 @@ export default function Assignments() {
           placeholder="Search for Assignments"
           id="wd-search-assignment"
         />
-        <div>
-          <Button variant="secondary" className="me-2" id="wd-add-assignment-group">
-            + Group
-          </Button>
-          <Link href={`/Kambaz/Courses/${cid}/Assignments/new`}>
-            <Button 
-              variant="danger"
-              id="wd-add-assignment"
-            >
-              <FaPlus className="me-2" />
-              Assignment
+        {isFaculty && (
+          <div>
+            <Button variant="secondary" className="me-2" id="wd-add-assignment-group">
+              + Group
             </Button>
-          </Link>
-        </div>
+            <Link href={`/Kambaz/Courses/${cid}/Assignments/new`}>
+              <Button 
+                variant="danger"
+                id="wd-add-assignment"
+              >
+                <FaPlus className="me-2" />
+                Assignment
+              </Button>
+            </Link>
+          </div>
+        )}
       </div>
 
       <h3 className="text-danger">ASSIGNMENTS</h3>
@@ -95,14 +99,16 @@ export default function Assignments() {
                 </div>
               </div>
               
-              <Button 
-                variant="danger" 
-                size="sm"
-                onClick={() => handleDeleteAssignment(assignment._id)}
-                id="wd-delete-assignment-click"
-              >
-                <FaTrash />
-              </Button>
+              {isFaculty && (
+                <Button 
+                  variant="danger" 
+                  size="sm"
+                  onClick={() => handleDeleteAssignment(assignment._id)}
+                  id="wd-delete-assignment-click"
+                >
+                  <FaTrash />
+                </Button>
+              )}
             </div>
           </li>
         ))}

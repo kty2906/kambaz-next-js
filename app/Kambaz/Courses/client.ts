@@ -11,8 +11,23 @@ export const USERS_API = `${HTTP_SERVER}/api/users`;
 
 // Course CRUD operations
 export const fetchAllCourses = async () => {
-  const { data } = await axiosWithCredentials.get(COURSES_API);
-  return data;
+  try {
+    console.log("[fetchAllCourses] Calling:", COURSES_API);
+    const { data } = await axiosWithCredentials.get(COURSES_API);
+    console.log("[fetchAllCourses] Success, received", data?.length || 0, "courses");
+    return data;
+  } catch (error: any) {
+    console.error("[fetchAllCourses] Error:", error);
+    if (axios.isAxiosError(error)) {
+      console.error("[fetchAllCourses] Status:", error.response?.status);
+      console.error("[fetchAllCourses] URL:", error.config?.url);
+      console.error("[fetchAllCourses] Response:", error.response?.data);
+      if (error.response?.status === 401) {
+        console.error("[fetchAllCourses] 401 Unauthorized - Session may have expired");
+      }
+    }
+    throw error;
+  }
 };
 
 export const createCourse = async (course: Partial<Course>) => {
@@ -56,7 +71,7 @@ export const unenrollFromCourse = async (userId: string, courseId: string) => {
   return data;
 };
 
-// Modules operations
+
 export const findModulesForCourse = async (courseId: string) => {
   const { data } = await axiosWithCredentials.get(`${COURSES_API}/${courseId}/modules`);
   return data;

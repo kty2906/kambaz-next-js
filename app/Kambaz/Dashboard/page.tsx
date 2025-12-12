@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
+import axios from "axios";
 import * as userClient from "../Account/client";
 import * as courseClient from "../Courses/client";
 import * as enrollmentsClient from "../Enrollments/client";
@@ -22,24 +23,37 @@ export default function Dashboard() {
   });
   
   const { currentUser } = useSelector((state: KambazState) => state.accountReducer);
+  const isFaculty = currentUser?.role === "FACULTY" || currentUser?.role === "ADMIN";
+  const isStudent = currentUser?.role === "STUDENT";
 
-  // Fetch enrolled courses
+ 
   const fetchCourses = async () => {
     try {
+      console.log("[Dashboard] Fetching enrolled courses...");
       const courses = await userClient.findMyCourses();
-      
+      console.log("[Dashboard] Received courses:", courses);
       setCourses(Array.isArray(courses) ? courses.filter((c) => c && c._id) : []);
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      console.error("[Dashboard] Error fetching enrolled courses:", error);
+      if (axios.isAxiosError(error)) {
+        console.error("[Dashboard] Error details:", {
+          status: error.response?.status,
+          url: error.config?.url,
+          message: error.response?.data?.message || error.message,
+        });
+        if (error.response?.status === 401) {
+          console.warn("[Dashboard] User not authenticated, showing empty courses list");
+        }
+      }
       setCourses([]);
     }
   };
 
-  // Fetch all courses
+ 
   const fetchAllCourses = async () => {
     try {
       const allCourses = await courseClient.fetchAllCourses();
-      // Filter out null/undefined courses
+     
       setAllCourses(Array.isArray(allCourses) ? allCourses.filter((c) => c && c._id) : []);
     } catch (error) {
       console.error(error);
@@ -47,11 +61,11 @@ export default function Dashboard() {
     }
   };
 
-  // Enroll in course
+  
   const enrollInCourse = async (courseId: string) => {
     try {
       await enrollmentsClient.enrollInCourse("current", courseId);
-      // Refresh enrolled courses
+     
       await fetchCourses();
       alert("Successfully enrolled!");
     } catch (error) {
@@ -60,11 +74,11 @@ export default function Dashboard() {
     }
   };
 
-  // Unenroll from course
+
   const unenrollFromCourse = async (courseId: string) => {
     try {
       await enrollmentsClient.unenrollFromCourse("current", courseId);
-      // Refresh enrolled courses
+      
       await fetchCourses();
       alert("Successfully unenrolled!");
     } catch (error) {
@@ -73,7 +87,7 @@ export default function Dashboard() {
     }
   };
 
-  // Check if enrolled
+ 
   const isEnrolled = (courseId: string) => {
     return courses.some((c) => c && c._id === courseId);
   };
@@ -142,7 +156,7 @@ export default function Dashboard() {
     }
   }, [currentUser]);
 
-  // Toggle between enrolled and all courses
+ 
   const displayCourses = showAllCourses ? allCourses : courses;
 
   return (
@@ -150,47 +164,51 @@ export default function Dashboard() {
       <h1 id="wd-dashboard-title">Dashboard</h1>
       <hr />
       
-      {/* Course Form */}
-      <h5>New Course</h5>
-      <div className="mb-3">
-        <input
-          value={course.name}
-          className="form-control mb-2"
-          onChange={(e) => setCourse({ ...course, name: e.target.value })}
-          placeholder="Course Name"
-        />
-        <input
-          value={course.number}
-          className="form-control mb-2"
-          onChange={(e) => setCourse({ ...course, number: e.target.value })}
-          placeholder="Course Number"
-        />
-        <input
-          value={course.startDate}
-          className="form-control mb-2"
-          type="date"
-          onChange={(e) => setCourse({ ...course, startDate: e.target.value })}
-        />
-        <input
-          value={course.endDate}
-          className="form-control mb-2"
-          type="date"
-          onChange={(e) => setCourse({ ...course, endDate: e.target.value })}
-        />
-        <textarea
-          value={course.description}
-          className="form-control mb-2"
-          onChange={(e) => setCourse({ ...course, description: e.target.value })}
-          placeholder="Course Description"
-          rows={3}
-        />
-        <button className="btn btn-primary me-2" onClick={addNewCourse}>
-          Add Course
-        </button>
-        <button className="btn btn-warning" onClick={updateCourse}>
-          Update Course
-        </button>
-      </div>
+      {/* Course Form - Only for Faculty/Admin */}
+      {isFaculty && (
+        <>
+          <h5>New Course</h5>
+          <div className="mb-3">
+            <input
+              value={course.name}
+              className="form-control mb-2"
+              onChange={(e) => setCourse({ ...course, name: e.target.value })}
+              placeholder="Course Name"
+            />
+            <input
+              value={course.number}
+              className="form-control mb-2"
+              onChange={(e) => setCourse({ ...course, number: e.target.value })}
+              placeholder="Course Number"
+            />
+            <input
+              value={course.startDate}
+              className="form-control mb-2"
+              type="date"
+              onChange={(e) => setCourse({ ...course, startDate: e.target.value })}
+            />
+            <input
+              value={course.endDate}
+              className="form-control mb-2"
+              type="date"
+              onChange={(e) => setCourse({ ...course, endDate: e.target.value })}
+            />
+            <textarea
+              value={course.description}
+              className="form-control mb-2"
+              onChange={(e) => setCourse({ ...course, description: e.target.value })}
+              placeholder="Course Description"
+              rows={3}
+            />
+            <button className="btn btn-primary me-2" onClick={addNewCourse}>
+              Add Course
+            </button>
+            <button className="btn btn-warning" onClick={updateCourse}>
+              Update Course
+            </button>
+          </div>
+        </>
+      )}
       
       <hr />
 
@@ -246,7 +264,7 @@ export default function Dashboard() {
                     </Link>
                     
                     {showAllCourses ? (
-                      // Show enroll/unenroll when viewing all courses
+                     
                       isEnrolled(c._id) ? (
                         <button
                           onClick={() => unenrollFromCourse(c._id)}
@@ -263,21 +281,23 @@ export default function Dashboard() {
                         </button>
                       )
                     ) : (
-                      // Show edit/delete when viewing my courses
-                      <>
-                        <button
-                          onClick={() => deleteCourse(c._id)}
-                          className="btn btn-danger btn-sm"
-                        >
-                          Delete
-                        </button>
-                        <button
-                          onClick={() => setCourse(c)}
-                          className="btn btn-warning btn-sm"
-                        >
-                          Edit
-                        </button>
-                      </>
+                     
+                      isFaculty && (
+                        <>
+                          <button
+                            onClick={() => deleteCourse(c._id)}
+                            className="btn btn-danger btn-sm"
+                          >
+                            Delete
+                          </button>
+                          <button
+                            onClick={() => setCourse(c)}
+                            className="btn btn-warning btn-sm"
+                          >
+                            Edit
+                          </button>
+                        </>
+                      )
                     )}
                   </div>
                 </div>

@@ -54,3 +54,59 @@ export interface Course {
     user: string;
     course: string;
   }
+
+  export interface Question {
+    _id: string;
+    title: string;
+    type: "MULTIPLE_CHOICE" | "TRUE_FALSE" | "FILL_IN_BLANK";
+    question: string;
+    points: number;
+    choices?: string[];
+    correctChoice?: number;
+    correctAnswer?: boolean;
+    possibleAnswers?: string[];
+  }
+
+  export interface Quiz {
+    _id: string;
+    title: string;
+    description: string;
+    course: string;
+    quizType: "GRADED_QUIZ" | "PRACTICE_QUIZ" | "GRADED_SURVEY" | "UNGRADED_SURVEY";
+    points: number;
+    assignmentGroup: "QUIZZES" | "EXAMS" | "ASSIGNMENTS" | "PROJECT";
+    shuffleAnswers: boolean;
+    timeLimit: number;
+    multipleAttempts: boolean;
+    attemptsAllowed: number;
+    showCorrectAnswers: "ALWAYS" | "IMMEDIATELY" | "AFTER_DUE_DATE" | "NEVER";
+    accessCode: string;
+    oneQuestionAtATime: boolean;
+    webcamRequired: boolean;
+    lockQuestionsAfterAnswering: boolean;
+    dueDate: string;
+    availableDate: string;
+    availableUntilDate: string;
+    published: boolean;
+    questions: Question[];
+  }
+
+  export interface QuizAnswer {
+    questionId: string;
+    answer: string | number | boolean;
+    isCorrect?: boolean;
+    pointsAwarded?: number;
+  }
+
+  export interface QuizAttempt {
+    _id: string;
+    quiz: string;
+    user: string;
+    course: string;
+    attemptNumber: number;
+    startedAt: string;
+    submittedAt: string | null;
+    answers: QuizAnswer[];
+    score: number;
+    completed: boolean;
+  }
