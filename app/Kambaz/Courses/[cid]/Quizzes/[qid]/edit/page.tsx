@@ -20,7 +20,6 @@ export default function QuizEditor() {
   const [editingQuestion, setEditingQuestion] = useState<Question | null>(null);
   const [isAddingQuestion, setIsAddingQuestion] = useState(false);
 
-  // CRITICAL: Add this useEffect!
   useEffect(() => {
     fetchQuiz();
   }, [qid]);
@@ -40,18 +39,43 @@ export default function QuizEditor() {
     }
   };
 
-  const handleUpdateQuiz = async (updates: Partial<Quiz>) => {
+  const handleUpdateQuiz = async (updates?: Partial<Quiz>) => {
     try {
-      const updated = await updateQuiz(qid as string, updates);
+      if (!quiz) return;
+      
+      const dataToSave = updates || quiz;
+      
+      console.log("[QuizEditor] Saving quiz:", dataToSave);
+      const updated = await updateQuiz(qid as string, dataToSave);
+      console.log("[QuizEditor] Quiz saved:", updated);
       setQuiz(updated);
+      return updated;
     } catch (error) {
-      console.error("Error updating quiz:", error);
+      console.error("[QuizEditor] Error updating quiz:", error);
+      alert("Error saving quiz. Please try again.");
+      throw error;
+    }
+  };
+
+  const handleSave = async () => {
+    if (!quiz) return;
+    try {
+      await handleUpdateQuiz(quiz);
+      alert("Quiz saved successfully!");
+    } catch (error) {
+      // Error 
     }
   };
 
   const handleSaveAndPublish = async () => {
-    await handleUpdateQuiz({ published: true });
-    router.push(`/Kambaz/Courses/${cid}/Quizzes`);
+    if (!quiz) return;
+    try {
+      await handleUpdateQuiz({ ...quiz, published: true });
+      alert("Quiz saved and published!");
+      router.push(`/Kambaz/Courses/${cid}/Quizzes`);
+    } catch (error) {
+      console.error("[QuizEditor] Error in save and publish:", error);
+    }
   };
 
   const handleCancel = () => {
@@ -125,7 +149,7 @@ export default function QuizEditor() {
             Cancel
           </button>
           <button
-            onClick={() => handleUpdateQuiz(quiz)}
+            onClick={handleSave}
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
           >
             Save
@@ -522,16 +546,13 @@ function QuestionEditor({ question, onSave, onCancel }: QuestionEditorProps) {
       return;
     }
 
-    // Prepare question data with all required fields
     const questionData: Partial<Question> = {
-      
       type: formData.type!,
       title: formData.title || formData.question?.substring(0, 50) || "New Question",
       question: formData.question!,
       points: formData.points || 1,
     };
 
-   
     if (formData.type === "MULTIPLE_CHOICE") {
       questionData.choices = formData.choices?.filter(c => c.trim() !== "");
       questionData.correctChoice = formData.correctChoice;
@@ -736,7 +757,7 @@ function QuestionEditor({ question, onSave, onCancel }: QuestionEditorProps) {
       <div className="flex justify-end gap-2 pt-4">
         <button
           onClick={onCancel}
-          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+          className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
         >
           Cancel
         </button>
