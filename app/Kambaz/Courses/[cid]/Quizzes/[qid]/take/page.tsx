@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
+import axios from "axios";
 import { findQuizById, submitQuizAttempt, getUserAttempts } from "../../client";
 import { Quiz, Question, QuizAnswer } from "../../../../../Database/types";
 import { KambazState } from "../../../../../store/types";
@@ -29,6 +30,7 @@ export default function TakeQuiz() {
       setLoading(false);
       setError("Please log in to take the quiz");
     }
+    
   }, [qid, currentUser]);
 
   useEffect(() => {
@@ -96,9 +98,14 @@ export default function TakeQuiz() {
         router.push(`/Kambaz/Courses/${cid}/Quizzes/${qid}/results`);
         return;
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("[TakeQuiz] Error fetching quiz:", error);
-      setError(error.response?.data?.message || error.message || "Failed to load quiz. Please try again.");
+      const errorMessage = axios.isAxiosError(error) 
+        ? error.response?.data?.message || error.message 
+        : error instanceof Error 
+        ? error.message 
+        : "Failed to load quiz. Please try again.";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

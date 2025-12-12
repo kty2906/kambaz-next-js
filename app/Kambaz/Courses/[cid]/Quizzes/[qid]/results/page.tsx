@@ -21,6 +21,7 @@ export default function QuizResults() {
     if (currentUser) {
       fetchResults(currentUser._id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [qid, currentUser]);
 
   const fetchResults = async (userId: string) => {
@@ -342,5 +343,4 @@ export default function QuizResults() {
       </div>
     </div>
   );
-}
 }

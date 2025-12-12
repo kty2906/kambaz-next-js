@@ -17,7 +17,6 @@ export default function QuizPreview() {
   const [startTime] = useState<Date>(new Date());
   const [lastSaved, setLastSaved] = useState<Date>(new Date());
 
-  const fetchQuiz = async () => {
   useEffect(() => {
     const autoSaveInterval = setInterval(() => {
       setLastSaved(new Date());
@@ -35,6 +34,11 @@ export default function QuizPreview() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchQuiz();
+  
+  }, [qid]);
 
   const handleAnswerChange = (questionId: string, answer: string) => {
     setAnswers({ ...answers, [questionId]: answer });
@@ -290,7 +294,6 @@ export default function QuizPreview() {
           </div>
         </div>
 
-        {}
         <div className={styles.editLink}>
           <span className={styles.editIcon}>✎</span>
           <button
@@ -399,3 +402,4 @@ function QuestionView({ question, answer, onAnswerChange }: QuestionViewProps) {
     </div>
   );
 }
+

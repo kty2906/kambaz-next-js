@@ -26,6 +26,11 @@ export default function QuizDetails() {
     }
   };
 
+  useEffect(() => {
+    fetchQuiz();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [qid]);
+
   const isFaculty = currentUser?.role === "FACULTY" || currentUser?.role === "ADMIN";
   const isStudent = currentUser?.role === "STUDENT";
 
