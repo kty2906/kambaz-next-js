@@ -37,7 +37,7 @@ export default function QuizPreview() {
 
   useEffect(() => {
     fetchQuiz();
-  
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [qid]);
 
   const handleAnswerChange = (questionId: string, answer: string) => {

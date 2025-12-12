@@ -46,6 +46,7 @@ export default function QuizzesList() {
   const handleAddQuiz = async () => {
     if (!cid || Array.isArray(cid)) return;
     try {
+      console.log("[Quizzes] Creating new quiz for course:", cid);
       const newQuiz = await quizzesClient.createQuiz(cid as string, {
         title: "New Quiz",
         description: "",
@@ -64,10 +65,19 @@ export default function QuizzesList() {
         published: false,
         questions: [],
       });
-      router.push(`/Kambaz/Courses/${cid}/Quizzes/${newQuiz._id}/edit`);
-    } catch (error) {
-      console.error("Error creating quiz:", error);
-      alert("Failed to create quiz");
+      console.log("[Quizzes] Quiz created successfully:", newQuiz?._id, "Full response:", newQuiz);
+      if (newQuiz && newQuiz._id) {
+        console.log("[Quizzes] Navigating to edit page:", `/Kambaz/Courses/${cid}/Quizzes/${newQuiz._id}/edit`);
+        // Use window.location for more reliable navigation
+        window.location.href = `/Kambaz/Courses/${cid}/Quizzes/${newQuiz._id}/edit`;
+      } else {
+        console.error("[Quizzes] Invalid quiz response:", newQuiz);
+        alert("Failed to create quiz: Invalid response from server");
+      }
+    } catch (error: unknown) {
+      console.error("[Quizzes] Error creating quiz:", error);
+      const errorMessage = error instanceof Error ? error.message : "Failed to create quiz";
+      alert(`Failed to create quiz: ${errorMessage}`);
     }
   };
 

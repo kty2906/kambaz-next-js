@@ -22,8 +22,19 @@ export const findQuizById = async (quizId: string): Promise<Quiz> => {
 
 // Create a new quiz
 export const createQuiz = async (courseId: string, quiz: Partial<Quiz>): Promise<Quiz> => {
-  const { data } = await axiosWithCredentials.post<Quiz>(`/api/courses/${courseId}/quizzes`, quiz);
-  return data;
+  try {
+    console.log("[createQuiz] Creating quiz for course:", courseId);
+    const response = await axiosWithCredentials.post<Quiz>(`/api/courses/${courseId}/quizzes`, quiz);
+    console.log("[createQuiz] Response received:", response.status, response.data?._id);
+    return response.data;
+  } catch (error) {
+    console.error("[createQuiz] Error:", error);
+    if (axios.isAxiosError(error)) {
+      console.error("[createQuiz] Response:", error.response?.data);
+      console.error("[createQuiz] Status:", error.response?.status);
+    }
+    throw error;
+  }
 };
 
 // Update quiz

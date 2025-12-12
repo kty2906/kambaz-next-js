@@ -22,13 +22,53 @@ export default function QuizEditor() {
 
   const fetchQuiz = async () => {
     try {
+      console.log("[QuizEditor] Fetching quiz:", qid);
+      // Add a small delay to ensure quiz is saved in database
+      await new Promise(resolve => setTimeout(resolve, 500));
       const data = await findQuizById(qid as string);
-      setQuiz(data);
-    } catch (error) {
-      console.error("Error fetching quiz:", error);
-    } finally {
-      setLoading(false);
+      console.log("[QuizEditor] Quiz fetched:", data?._id, "Questions:", data?.questions?.length || 0);
+      if (data) {
+        setQuiz(data);
+      } else {
+        console.error("[QuizEditor] Quiz data is null or undefined");
+        // Retry once after 1 second
+        setTimeout(async () => {
+          try {
+            const retryData = await findQuizById(qid as string);
+            if (retryData) {
+              setQuiz(retryData);
+              setLoading(false);
+            }
+          } catch (retryError) {
+            console.error("[QuizEditor] Retry failed:", retryError);
+            setLoading(false);
+          }
+        }, 1000);
+        return;
+      }
+    } catch (error: unknown) {
+      console.error("[QuizEditor] Error fetching quiz:", error);
+      const errorMessage = error instanceof Error ? error.message : "Failed to load quiz";
+      // Don't show alert immediately, retry once
+      setTimeout(async () => {
+        try {
+          const retryData = await findQuizById(qid as string);
+          if (retryData) {
+            setQuiz(retryData);
+            setLoading(false);
+          } else {
+            alert(`Error loading quiz: ${errorMessage}`);
+            setLoading(false);
+          }
+        } catch (retryError) {
+          console.error("[QuizEditor] Retry failed:", retryError);
+          alert(`Error loading quiz: ${errorMessage}`);
+          setLoading(false);
+        }
+      }, 1000);
+      return;
     }
+    setLoading(false);
   };
 
   const handleUpdateQuiz = async (updates: Partial<Quiz>) => {
